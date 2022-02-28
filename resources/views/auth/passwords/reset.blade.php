@@ -1,11 +1,7 @@
-<?php
-use App\Services\UrlGen;
-?>
-
 @extends('layouts.inner')
 
 @section('title')
-    Регистрация
+    Восстановление пароля
 @endsection
 
 @section('content')
@@ -14,48 +10,45 @@ use App\Services\UrlGen;
         <div class="container">
             <div class="content-grid">
                 <div class="text-center icon">
-                    <span class="fa fa-user-circle-o"></span>
+                    <span class="fa fa-unlock-alt"></span>
                 </div>
                 <div class="content-bottom">
-                    <form action="#" method="post">
-                        <div class="field-group">
+                    <form method="POST" action="{{ route('password.update') }}">
+                        @csrf
+                        <input type="hidden" name="token" value="{{ $token }}">
 
+                        <div class="field-group">
                             <div class="content-input-field">
-                                <input name="text1" id="text1" type="text" value="" placeholder="User Name" required="">
+
+                                @error('email')
+                                    <span class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+
+                                <input id="email" type="email" placeholder="Email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
                             </div>
                         </div>
                         <div class="field-group">
-
                             <div class="content-input-field">
-                                <input name="text1" id="text1" type="email" value="" placeholder="User Email" required="">
+
+                                @error('password')
+                                    <span class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+
+                                <input id="password" type="password" placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
                             </div>
                         </div>
                         <div class="field-group">
-
                             <div class="content-input-field">
-                                <input name="text1" id="text3" type="text" value="" placeholder="UserPhone" required="">
-                            </div>
-                        </div>
-                        <div class="field-group">
-                            <div class="content-input-field">
-                                <input name="password" id="myInput" type="Password" placeholder="Password">
+                                <input id="password-confirm" type="password" placeholder="Confirm password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
                         <div class="content-input-field">
-                            <button type="submit" class="btn">Sign Up</button>
+                            <button type="submit" class="btn">{{ __('Reset Password') }}</button>
                         </div>
-                        <div class="list-login-bottom text-center mt-lg-5 mt-4">
-
-                            <a href="#" class="">By clicking Signup, I agree to your terms</a>
-                            <ul class="list-login-bottom">
-                                <li class="">
-                                    <a href="<?= UrlGen::login() ?>" class="">Have an Account?</a>
-                                </li>
-                                <li class="clearfix"></li>
-                            </ul>
-
-                        </div>
-
                     </form>
                 </div>
             </div>

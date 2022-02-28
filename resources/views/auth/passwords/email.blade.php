@@ -1,11 +1,7 @@
-<?php
-use App\Services\UrlGen;
-?>
-
 @extends('layouts.inner')
 
 @section('title')
-    Авторизация
+    Восстановление пароля
 @endsection
 
 @section('content')
@@ -14,43 +10,34 @@ use App\Services\UrlGen;
         <div class="container">
             <div class="content-grid">
                 <div class="text-center icon">
+                    <h3>{{ __('Reset Password') }}</h3><br>
                     <span class="fa fa-unlock-alt"></span>
                 </div>
                 <div class="content-bottom">
-                    <form action="#" method="post">
-                        <div class="field-group">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
-                            <div class="content-input-field">
-                                <input name="text1" id="text1" type="text" value="" placeholder="User Name" required="">
-                            </div>
-                        </div>
+                    <form method="POST" action="{{ route('password.email') }}">
+                        @csrf
                         <div class="field-group">
                             <div class="content-input-field">
-                                <input name="password" id="myInput" type="Password" placeholder="Password">
+
+                                @error('email')
+                                    <span class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                             </div>
                         </div>
+
                         <div class="content-input-field">
-                            <button type="submit" class="btn">Sign In</button>
+                            <button type="submit" class="btn">{{ __('Send Password Reset Link') }}</button>
                         </div>
-                        <ul class="list-login">
-                            <li class="switch-slide">
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider round"></span>
-                                    keep Logged in
-                                </label>
-                            </li>
-                            <li>
-                                <a href="#" class="text-right">Forgot password?</a>
-                            </li>
-                            <li class="clearfix"></li>
-                        </ul>
-                        <ul class="list-login-bottom">
-                            <li class="">
-                                <a href="<?= UrlGen::register() ?>" class="">Don't have an Account?</a>
-                            </li>
-                            <li class="clearfix"></li>
-                        </ul>
                     </form>
                 </div>
             </div>

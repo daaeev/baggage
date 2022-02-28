@@ -1,18 +1,13 @@
-<?php
-
-use App\Services\UrlGen;
-
-?>
 <div class="col-lg-3 footer_wthree_gridf mt-md-0 mt-4">
     <ul class="footer_wthree_gridf_list">
         <li>
-            <a href="<?= UrlGen::index() ?>"><span class="fa fa-angle-right" aria-hidden="true"></span> Home</a>
+            <a href="{{route('home')}}"><span class="fa fa-angle-right" aria-hidden="true"></span> Home</a>
         </li>
         <li>
-            <a href="<?= UrlGen::about() ?>"><span class="fa fa-angle-right" aria-hidden="true"></span> About</a>
+            <a href="{{route('about')}}"><span class="fa fa-angle-right" aria-hidden="true"></span> About</a>
         </li>
         <li>
-            <a href="<?= UrlGen::catalog() ?>"><span class="fa fa-angle-right" aria-hidden="true"></span> Shop</a>
+            <a href="{{route('catalog')}}"><span class="fa fa-angle-right" aria-hidden="true"></span> Shop</a>
         </li>
 
     </ul>
@@ -23,10 +18,10 @@ use App\Services\UrlGen;
             <a href="#"><span class="fa fa-angle-right" aria-hidden="true"></span> Terms & Conditions</a>
         </li>
         <li>
-            <a href="<?= UrlGen::contact() ?>"><span class="fa fa-angle-right" aria-hidden="true"></span> Contact Us</a>
+            <a href="{{route('contact')}}"><span class="fa fa-angle-right" aria-hidden="true"></span> Contact Us</a>
         </li>
         <li>
-            <a href="<?= UrlGen::newsletter() ?>"><span class="fa fa-angle-right" aria-hidden="true"></span> Newsletter</a>
+            <a href="{{route('newsletter')}}"><span class="fa fa-angle-right" aria-hidden="true"></span> Newsletter</a>
         </li>
     </ul>
 </div>
@@ -34,11 +29,11 @@ use App\Services\UrlGen;
 <div class="col-lg-3 footer_wthree_gridf mt-md-0 mt-sm-4 mt-3">
     <ul class="footer_wthree_gridf_list">
         <li>
-            <a href="login.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Login </a>
+            <a href="{{route('login')}}"><span class="fa fa-angle-right" aria-hidden="true"></span> Login </a>
         </li>
 
         <li>
-            <a href="register.html"><span class="fa fa-angle-right" aria-hidden="true"></span>Register</a>
+            <a href="{{route('register')}}"><span class="fa fa-angle-right" aria-hidden="true"></span>Register</a>
         </li>
         <li>
             <a href="#"><span class="fa fa-angle-right" aria-hidden="true"></span>Privacy & Policy</a>

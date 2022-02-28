@@ -1,7 +1,3 @@
-<?php
-use App\Services\UrlGen;
-?>
-
 @extends('layouts.inner')
 
 @section('title')
@@ -56,7 +52,7 @@ use App\Services\UrlGen;
                 <div class="col-md-4 ab-content text-center p-lg-5 p-3 my-lg-5">
                     <h4>Travel Must Haves</h4>
                     <p>Lorem ipsum dolor sit,Nulla pellentesque dolor ipsum laoreet eleifend integer,Pellentesque maximus libero.</p>
-                    <a href="<?= UrlGen::catalog() ?>" class="btn shop mt-3">Shop Now</a>
+                    <a href="{{route('catalog')}}" class="btn shop mt-3">Shop Now</a>
 
                 </div>
             </div>

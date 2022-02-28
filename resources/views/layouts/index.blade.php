@@ -1,9 +1,3 @@
-<?php
-
-use App\Services\UrlGen;
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,12 +20,12 @@ use App\Services\UrlGen;
     <!-- //Meta tag Keywords -->
 
     <!-- Custom-Files -->
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
     <!-- Bootstrap-Core-CSS -->
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
     <!-- Style-CSS -->
     <!-- font-awesome-icons -->
-    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="/css/font-awesome.css" rel="stylesheet">
     <!-- //font-awesome-icons -->
     <!-- /Fonts -->
     <link href="//fonts.googleapis.com/css?family=Hind:300,400,500,600,700" rel="stylesheet">
@@ -47,12 +41,24 @@ use App\Services\UrlGen;
                 <!-- nav -->
                 <div class="top-w3pvt d-flex">
                     <div id="logo">
-                        <h1> <a href="<?= UrlGen::index() ?>"><span class="log-w3pvt">B</span>aggage</a> <label class="sub-des">Online Store</label></h1>
+                        <h1> <a href="{{route('home')}}"><span class="log-w3pvt">B</span>aggage</a> <label class="sub-des">Online Store</label></h1>
                     </div>
 
                     <div class="forms ml-auto">
-                        <a href="<?= UrlGen::login() ?>" class="btn"><span class="fa fa-user-circle-o"></span> Sign In</a>
-                        <a href="<?= UrlGen::register() ?>" class="btn"><span class="fa fa-pencil-square-o"></span> Sign Up</a>
+
+                        @auth
+                            <a class="btn" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <span class="fa fa-user-circle-o"></span> Logout
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                @csrf
+                            </form>
+                        @else
+                            <a href="{{route('login')}}" class="btn"><span class="fa fa-user-circle-o"></span> Sign In</a>
+                            <a href="{{route('register')}}" class="btn"><span class="fa fa-pencil-square-o"></span> Sign Up</a>
+                        @endauth
+
                     </div>
                 </div>
 
@@ -66,11 +72,11 @@ use App\Services\UrlGen;
             <div class="row">
                 <div class="col-lg-5 banner-left-info">
                     <h3>The Largest Range <span>of HandBags</span></h3>
-                    <a href="<?= UrlGen::catalog() ?>" class="btn shop">Shop Now</a>
+                    <a href="{{route('catalog')}}" class="btn shop">Shop Now</a>
                 </div>
 
                 <div class="col-lg-7 banner-img">
-                    <img src="{{asset('images/bag.png')}}" alt="part image" class="img-fluid">
+                    <img src="images/bag.png" alt="part image" class="img-fluid">
                 </div>
             </div>
         </div>
@@ -84,7 +90,7 @@ use App\Services\UrlGen;
         <div class="container py-md-5">
             <div class="row">
                 <div class="col-lg-3 footer_wthree_gridf mt-lg-5">
-                    <h2><a href="<?= UrlGen::index() ?>"><span>B</span>aggage
+                    <h2><a href="{{route('home')}}"><span>B</span>aggage
                         </a> </h2>
                     <label class="sub-des2">Online Store</label>
                 </div>

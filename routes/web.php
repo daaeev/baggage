@@ -16,11 +16,10 @@ use App\Http\Controllers\AuthorizationController;
 |
 */
 
-Route::get(UrlGen::index(), [SiteController::class, 'index']);
-Route::get(UrlGen::about(), [SiteController::class, 'about']);
-Route::get(UrlGen::contact(), [SiteController::class, 'contact']);
-Route::get(UrlGen::catalog(), [SiteController::class, 'catalog']);
-Route::get(UrlGen::newsletter(), [SiteController::class, 'newsletter']);
+Route::get('/', [SiteController::class, 'index'])->name('home');
+Route::get('/about', [SiteController::class, 'about'])->name('about');
+Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
+Route::get('/catalog', [SiteController::class, 'catalog'])->name('catalog');
+Route::get('/newsletter', [SiteController::class, 'newsletter'])->name('newsletter');
 
-Route::get(UrlGen::login(), [AuthorizationController::class, 'login']);
-Route::get(UrlGen::register(), [AuthorizationController::class, 'register']);
+Auth::routes(['verify' => true]);
