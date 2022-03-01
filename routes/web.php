@@ -22,4 +22,8 @@ Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
 Route::get('/catalog', [SiteController::class, 'catalog'])->name('catalog');
 Route::get('/newsletter', [SiteController::class, 'newsletter'])->name('newsletter');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [SiteController::class, 'profile'])->name('profile');
+});
+
 Auth::routes(['verify' => true]);

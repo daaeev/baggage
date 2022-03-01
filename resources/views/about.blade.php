@@ -73,7 +73,7 @@
                 <div class="col-md-4 content-gd-wthree ab-content py-lg-5 my-lg-5">
                     <h4>Need Extra Space ?</h4>
                     <p>Lorem ipsum dolor sit,Nulla pellentesque dolor ipsum laoreet eleifend integer,Pellentesque maximus libero.</p>
-                    <a href="<?= UrlGen::catalog() ?>" class="btn shop mt-3">Shop Now</a>
+                    <a href="{{route('catalog')}}" class="btn shop mt-3">Shop Now</a>
 
                 </div>
                 <div class="col-md-4 content-gd-wthree">
@@ -91,14 +91,14 @@
                 <img src="images/ab1.jpg" class="img-fluid" alt="" />
                 <div class="pos-wthree">
                     <h4 class="text-wthree">50% Off Any <br> Women's Bags</h4>
-                    <a href="<?= UrlGen::catalog() ?>" class="btn shop mt-3">Shop Now</a>
+                    <a href="{{route('catalog')}}" class="btn shop mt-3">Shop Now</a>
                 </div>
             </div>
             <div class="col-lg-6 bottom-w3pvt-left bottom-w3pvt-right p-lg-0">
                 <img src="images/ab2.jpg" class="img-fluid" alt="" />
                 <div class="pos-w3pvt">
                     <h4 class="text-w3pvt">30% Off Any <br> Men's Bags</h4>
-                    <a href="<?= UrlGen::catalog() ?>" class="btn shop mt-3">Shop Now</a>
+                    <a href="{{route('catalog')}}" class="btn shop mt-3">Shop Now</a>
                 </div>
             </div>
         </div>

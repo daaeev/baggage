@@ -47,13 +47,9 @@
                     <div class="forms ml-auto">
 
                         @auth
-                            <a class="btn" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                <span class="fa fa-user-circle-o"></span> Logout
+                            <a class="btn" href="{{ route('profile') }}">
+                                <span class="fa fa-user-circle-o"></span> Profile
                             </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                                @csrf
-                            </form>
                         @else
                             <a href="{{route('login')}}" class="btn"><span class="fa fa-user-circle-o"></span> Sign In</a>
                             <a href="{{route('register')}}" class="btn"><span class="fa fa-pencil-square-o"></span> Sign Up</a>
