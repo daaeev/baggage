@@ -10,6 +10,7 @@
         <div class="container">
             <div class="content-grid">
                 <div class="text-center icon">
+                    <h3>{{ __('Login') }}</h3><br>
                     <span class="fa fa-unlock-alt"></span>
                 </div>
                 <div class="content-bottom">
@@ -52,7 +53,7 @@
                                 </label>
                             </li>
                             <li>
-                                <a href="#" class="text-right">Forgot password?</a>
+                                <a href="{{route('password.request')}}" class="text-right">Forgot password?</a>
                             </li>
                             <li class="clearfix"></li>
                         </ul>

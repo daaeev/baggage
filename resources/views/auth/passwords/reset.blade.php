@@ -10,6 +10,7 @@
         <div class="container">
             <div class="content-grid">
                 <div class="text-center icon">
+                    <h3>{{ __('Reset Password') }}</h3><br>
                     <span class="fa fa-unlock-alt"></span>
                 </div>
                 <div class="content-bottom">

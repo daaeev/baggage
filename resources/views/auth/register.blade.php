@@ -10,6 +10,7 @@
         <div class="container">
             <div class="content-grid">
                 <div class="text-center icon">
+                    <h3>{{ __('Registration') }}</h3><br>
                     <span class="fa fa-user-circle-o"></span>
                 </div>
                 <div class="content-bottom">
