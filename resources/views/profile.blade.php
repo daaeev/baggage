@@ -21,7 +21,7 @@
                         @endif
                     </p>
                     <p>
-                        <a class="text-primary" href="{{route('password.email')}}">Change password</a>
+                        <a class="text-primary" href="{{route('password.update')}}">Change password</a>
                     </p>
                     <br><p>
                         <a class="btn btn-danger" href="{{route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
