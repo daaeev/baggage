@@ -5,11 +5,9 @@ namespace App\Http\Middleware;
 use App\Services\interfaces\UserRepositoryInterface;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-/**
- * Посредник для проверки авторизации пользователя
- */
-class Authorize
+class AdminAccess
 {
     public function __construct(protected UserRepositoryInterface $userRepository)
     {
@@ -24,7 +22,7 @@ class Authorize
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$this->userRepository->getAuthenticated()) {
+        if (!$this->userRepository->isAdmin()) {
             return response()->redirectTo(route('home'));
         }
 
