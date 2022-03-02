@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\traits\RolesCheck;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +11,23 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, RolesCheck;
+
+    /**
+     * Константа используется в трейте RolesCheck
+     * @var int числовое значение статуса админа
+     */
+    const STATUS_ADMIN = 5;
+
+    /**
+     * Константа используется в трейте RolesCheck
+     * @var int числовое значение статуса обычного пользователя
+     */
+    const STATUS_USER = 0;
+
+    protected $attributes = [
+        'status' => 0,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -41,4 +58,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected function getStatus(): int
+    {
+        return $this->status;
+    }
 }
