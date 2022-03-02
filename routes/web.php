@@ -21,6 +21,7 @@ Route::get('/about', [SiteController::class, 'about'])->name('about');
 Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
 Route::get('/catalog', [SiteController::class, 'catalog'])->name('catalog');
 Route::get('/newsletter', [SiteController::class, 'newsletter'])->name('newsletter');
+Route::get('/catalog/{bag}', [SiteController::class, 'single'])->name('single');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [SiteController::class, 'profile'])->name('profile');

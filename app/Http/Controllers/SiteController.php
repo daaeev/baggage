@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -55,5 +56,13 @@ class SiteController extends Controller
         $user = Auth::user();
 
         return view('profile', compact('user'));
+    }
+
+    /**
+     * Метод отвечает за рендер страницы просмотра товара
+     */
+    public function single(Bag $bag)
+    {
+        return view('single', compact('bag'));
     }
 }
