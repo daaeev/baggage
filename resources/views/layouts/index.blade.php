@@ -50,6 +50,12 @@
                             <a class="btn" href="{{ route('profile') }}">
                                 <span class="fa fa-user-circle-o"></span> Profile
                             </a>
+
+                            @admin
+                                <a class="btn" href="{{ route('admin.users') }}">
+                                    <span class="fa fa-pencil-square-o"></span> Admin panel
+                                </a>
+                            @endadmin
                         @else
                             <a href="{{route('login')}}" class="btn"><span class="fa fa-user-circle-o"></span> Sign In</a>
                             <a href="{{route('register')}}" class="btn"><span class="fa fa-pencil-square-o"></span> Sign Up</a>

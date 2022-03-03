@@ -2,9 +2,11 @@
 
 namespace App\Services\Repositories;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Services\interfaces\UserRepositoryInterface;
 
-class UserRepository implements \App\Services\interfaces\UserRepositoryInterface
+class UserRepository implements UserRepositoryInterface
 {
     /**
      * @inheritDoc
@@ -12,5 +14,15 @@ class UserRepository implements \App\Services\interfaces\UserRepositoryInterface
     public function getAuthenticated()
     {
         return Auth::user();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFistOrNull(int $id): User|null
+    {
+        return User::where('id', $id)->firstOr(function () {
+            return null;
+        });
     }
 }

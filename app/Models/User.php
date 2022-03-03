@@ -21,6 +21,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Константа используется в трейте RolesCheck
+     * @var int числовое значение статуса забаненого пользователя
+     */
+    const STATUS_BANNED = 3;
+
+    /**
+     * Константа используется в трейте RolesCheck
      * @var int числовое значение статуса обычного пользователя
      */
     const STATUS_USER = 0;

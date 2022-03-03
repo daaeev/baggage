@@ -4,6 +4,7 @@ use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 use App\Services\UrlGen;
 use App\Http\Controllers\AuthorizationController;
+use App\Http\Controllers\AdminPanelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Auth::routes(['verify' => true]);
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/users', [AdminPanelController::class, 'usersList'])->name('admin.users');
+    Route::get('/admin/user/role', [AdminPanelController::class, 'setRole'])->name('admin.users.role');
+});
