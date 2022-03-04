@@ -4,6 +4,7 @@ namespace App\Services\interfaces;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use ViewComponents\ViewComponents\Input\InputSource;
 
 interface UserRepositoryInterface
 {
@@ -19,4 +20,12 @@ interface UserRepositoryInterface
      * @return \App\Models\User|Null
      */
     public function getFistOrNull(int $id): User|null;
+
+    /**
+     * Метод возвращает список всех пользователей,
+     * используя библиотеку для построения таблицы (view-components/grid)
+     * @param InputSource $input
+     * @return mixed
+     */
+    public function getAllUsingGrid(InputSource $input);
 }
