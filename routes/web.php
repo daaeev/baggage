@@ -33,4 +33,6 @@ Auth::routes(['verify' => true]);
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/users', [AdminPanelController::class, 'usersList'])->name('admin.users');
     Route::get('/admin/user/role', [AdminPanelController::class, 'setRole'])->name('admin.users.role');
+
+    Route::get('/admin/bags', [AdminPanelController::class, 'bagsList'])->name('admin.bags');
 });
