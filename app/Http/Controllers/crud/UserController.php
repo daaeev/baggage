@@ -27,20 +27,20 @@ class UserController extends Controller
             'role' => 'bail|required|integer|in:' . $stringOfUserStatuses,
         ]);
 
-        $user_id = request()->query('id');
-        $role = request()->query('role');
+        $user_id = $request->query('id');
+        $role = $request->query('role');
 
         // Сохранение данных пользователя в БД
         $user = $userRepository->getFistOrNull($user_id);
         $user->status = $role;
         if (!$user->save()) {
-            request()->session()->flash('status_failed', "Save failed");
+            $request->session()->flash('status_failed', "Save failed");
 
-            return response()->redirectTo(route('admin.users'));
+            return redirect(route('admin.users'));
         }
 
-        request()->session()->flash('status_success', "Role is set");
+        $request->session()->flash('status_success', "Role is set");
 
-        return response()->redirectTo(route('admin.users'));
+        return redirect(route('admin.users'));
     }
 }

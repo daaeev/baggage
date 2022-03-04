@@ -5,6 +5,7 @@ namespace App\Http\Controllers\crud;
 use App\Http\Controllers\Controller;
 use App\Models\Bag;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class BagController extends Controller
 {
@@ -17,7 +18,7 @@ class BagController extends Controller
     public function create(Request $request)
     {
         // Валидация полученных данных
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required|max:255|unique:\App\Models\Bag,name',
             'price' => 'numeric|required',
             'discount_price' => 'nullable|numeric',
@@ -30,9 +31,9 @@ class BagController extends Controller
         $image_path = $file->store('bags_preview', 'public');
 
         if (!$image_path) {
-            request()->session()->flash('status_failed', "Image save failed");
+            $request->session()->flash('status_failed', "Image save failed");
 
-            return response()->redirectTo(route('admin.bags.create.form'));
+            return redirect(route('admin.bags.create.form'));
         }
 
         // Сохранение данных в БД
@@ -45,13 +46,13 @@ class BagController extends Controller
         $model->image = $image_path;
 
         if (!$model->save()) {
-            request()->session()->flash('status_failed', "Model save failed");
+            $request->session()->flash('status_failed', "Model save failed");
 
-            return response()->redirectTo(route('admin.bags.create.form'));
+            return redirect(route('admin.bags.create.form'));
         }
 
-        request()->session()->flash('status_success', "Product added successfully");
+        $request->session()->flash('status_success', "Product added successfully");
 
-        return response()->redirectTo(route('admin.bags'));
+        return redirect(route('admin.bags'));
     }
 }

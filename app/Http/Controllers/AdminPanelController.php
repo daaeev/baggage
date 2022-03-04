@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Services\interfaces\BagsRepositoryInterface;
 use App\Services\interfaces\UserRepositoryInterface;
+use Illuminate\Http\Request;
 use ViewComponents\ViewComponents\Input\InputSource;
 
 class AdminPanelController extends Controller
@@ -15,9 +16,9 @@ class AdminPanelController extends Controller
      * @param UserRepositoryInterface $userRepository
      * @return mixed
      */
-    public function usersList(UserRepositoryInterface $userRepository)
+    public function usersList(UserRepositoryInterface $userRepository, Request $request)
     {
-        $input = new InputSource(request()->query());
+        $input = new InputSource($request->query());
         $grid = $userRepository->getAllUsingGrid($input);
 
         return view('admin.users', compact('grid'));
@@ -29,9 +30,9 @@ class AdminPanelController extends Controller
      * @param BagsRepositoryInterface $bagsRepository
      * @return mixed
      */
-    public function bagsList(BagsRepositoryInterface $bagsRepository)
+    public function bagsList(BagsRepositoryInterface $bagsRepository, Request $request)
     {
-        $input = new InputSource(request()->query());
+        $input = new InputSource($request->query());
         $grid = $bagsRepository->getAllUsingGrid($input);
 
         return view('admin.bags', compact('grid'));
