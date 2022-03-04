@@ -24,12 +24,22 @@ use App\Models\User
         </div>
     @endif
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{route('admin.users.role')}}" method="get" class="mb-5">
         <label>Set role</label>
 
-        <input name="id" type="text" id="userId" placeholder="User id" class="form-control mb-2" autocomplete="off">
+        <input name="id" type="text" placeholder="User id" class="form-control mb-2" autocomplete="off" value="{{old('id')}}">
 
-        <select name="role" id="setRole" class="form-control h-50 mb-2">
+        <select name="role" class="form-control h-50 mb-2">
             <option value="{{User::STATUS_USER}}">User</option>
             <option value="{{User::STATUS_ADMIN}}">Admin</option>
             <option value="{{User::STATUS_BANNED}}">Banned</option>

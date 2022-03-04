@@ -5,6 +5,7 @@ namespace App\Http\Controllers\crud;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\interfaces\UserRepositoryInterface;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -13,28 +14,24 @@ class UserController extends Controller
      *
      * id пользователя и номер роли передаются через get-параметры
      * @param UserRepositoryInterface $userRepository
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setRole(UserRepositoryInterface $userRepository)
+    public function setRole(UserRepositoryInterface $userRepository, Request $request)
     {
-        $id = request()->query('id');
+        // перечень значений статусов пользователя для валидатора 'in'
+        $stringOfUserStatuses = User::STATUS_ADMIN . ',' . User::STATUS_USER . ',' . User::STATUS_BANNED;
+
+        $request->validate([
+            'id' => 'bail|required|integer|exists:\App\Models\User,id',
+            'role' => 'bail|required|integer|in:' . $stringOfUserStatuses,
+        ]);
+
+        $user_id = request()->query('id');
         $role = request()->query('role');
 
-        // Проверка на существование пользователя с id = $id
-        if (!$user = $userRepository->getFistOrNull($id)) {
-            request()->session()->flash('status_failed', "User with id $id not found");
-
-            return response()->redirectTo(route('admin.users'));
-        }
-
-        // Проверка на существование роли с номером $role
-        if (!in_array($role, [User::STATUS_USER, User::STATUS_ADMIN, User::STATUS_BANNED])) {
-            request()->session()->flash('status_failed', "Incorrect role");
-
-            return response()->redirectTo(route('admin.users'));
-        }
-
         // Сохранение данных пользователя в БД
+        $user = $userRepository->getFistOrNull($user_id);
         $user->status = $role;
         if (!$user->save()) {
             request()->session()->flash('status_failed', "Save failed");

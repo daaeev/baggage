@@ -6,14 +6,8 @@
 
 @section('content')
 
-    @if (session('status_failed'))
-        <div class="alert alert-danger" role="alert">
-            {{ __(session('status_failed')) }}
-        </div>
-    @endif
-
     @if (session('status_success'))
-        <div class="alert alert-success" role="alert">
+        <div class="alert alert-danger" role="alert">
             {{ __(session('status_success')) }}
         </div>
     @endif

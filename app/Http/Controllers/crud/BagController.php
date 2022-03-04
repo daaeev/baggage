@@ -32,7 +32,7 @@ class BagController extends Controller
         if (!$image_path) {
             request()->session()->flash('status_failed', "Image save failed");
 
-            return response()->redirectTo(route('admin.bags'));
+            return response()->redirectTo(route('admin.bags.create.form'));
         }
 
         // Сохранение данных в БД
@@ -47,7 +47,7 @@ class BagController extends Controller
         if (!$model->save()) {
             request()->session()->flash('status_failed', "Model save failed");
 
-            return response()->redirectTo(route('admin.bags'));
+            return response()->redirectTo(route('admin.bags.create.form'));
         }
 
         request()->session()->flash('status_success', "Product added successfully");
