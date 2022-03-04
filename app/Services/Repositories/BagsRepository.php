@@ -28,7 +28,7 @@ class BagsRepository implements BagsRepositoryInterface
             new Column('discount_price'),
             new Column('count'),
             (new Column('image'))->setValueFormatter(function($value) {
-                return "<img src = '/upload/$value' alt='bag_preview_image'>";
+                return "<img src = '" . asset("storage/$value") . "' alt='bag_preview_image' width='200px'>";
             }),
             new PaginationControl($input->option('page', 1), 15),
             new ColumnSortingControl('id', $input->option('sort')),

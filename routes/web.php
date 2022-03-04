@@ -6,6 +6,7 @@ use App\Services\UrlGen;
 use App\Http\Controllers\AuthorizationController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\crud\UserController;
+use App\Http\Controllers\crud\BagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,10 +36,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // CRUD routes
     Route::get('/admin/user/role', [UserController::class, 'setRole'])->name('admin.users.role');
+    Route::post('/admin/bags/create', [BagController::class, 'create'])->name('admin.bags.create');
     // !CRUD routes
 
     Route::get('/admin/users', [AdminPanelController::class, 'usersList'])->name('admin.users');
 
     Route::get('/admin/bags', [AdminPanelController::class, 'bagsList'])->name('admin.bags');
-    Route::get('/admin/create/form', [AdminPanelController::class, 'bagsList'])->name('admin.bags.create.form');
+    Route::get('/admin/bags/create/form', [AdminPanelController::class, 'bagCreateForm'])->name('admin.bags.create.form');
 });

@@ -22,11 +22,11 @@
         <label>Set discount price</label>
 
         <input name="id" type="text" id="bagId" placeholder="Bag id" class="form-control mb-2" autocomplete="off">
-        <input name="id" type="number" id="discountPrice" placeholder="Discount price" class="form-control mb-2" autocomplete="off">
+        <input name="id" type="number" id="discountPrice" placeholder="Discount price (grivna)" class="form-control mb-2" autocomplete="off">
 
         <input type="submit" class="btn btn-success" value="Set">
     </form>
 
-    <a href="" class="btn btn-success mb-1">Add bag</a>
+    <a href="{{route('admin.bags.create.form')}}" class="btn btn-success mb-1">Add bag</a>
     <?= $grid ?>
 @endsection

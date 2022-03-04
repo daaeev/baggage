@@ -36,4 +36,14 @@ class AdminPanelController extends Controller
 
         return view('admin.bags', compact('grid'));
     }
+
+    /**
+     * Метод отвечает за рендер страницы с формой создания товара в админ панели
+     *
+     * @return mixed
+     */
+    public function bagCreateForm()
+    {
+        return view('admin.bags_create_form');
+    }
 }

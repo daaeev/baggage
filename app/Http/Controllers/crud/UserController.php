@@ -22,14 +22,14 @@ class UserController extends Controller
 
         // Проверка на существование пользователя с id = $id
         if (!$user = $userRepository->getFistOrNull($id)) {
-            request()->session()->flash('status_fail', "User with id $id not found");
+            request()->session()->flash('status_failed', "User with id $id not found");
 
             return response()->redirectTo(route('admin.users'));
         }
 
         // Проверка на существование роли с номером $role
         if (!in_array($role, [User::STATUS_USER, User::STATUS_ADMIN, User::STATUS_BANNED])) {
-            request()->session()->flash('status_fail', "Incorrect role");
+            request()->session()->flash('status_failed', "Incorrect role");
 
             return response()->redirectTo(route('admin.users'));
         }
@@ -37,7 +37,7 @@ class UserController extends Controller
         // Сохранение данных пользователя в БД
         $user->status = $role;
         if (!$user->save()) {
-            request()->session()->flash('status_fail', "Save failed");
+            request()->session()->flash('status_failed', "Save failed");
 
             return response()->redirectTo(route('admin.users'));
         }
