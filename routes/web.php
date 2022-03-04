@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Services\UrlGen;
 use App\Http\Controllers\AuthorizationController;
 use App\Http\Controllers\AdminPanelController;
+use App\Http\Controllers\crud\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,8 +32,13 @@ Route::middleware('auth')->group(function () {
 Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'admin'])->group(function () {
+
+    // CRUD routes
+    Route::get('/admin/user/role', [UserController::class, 'setRole'])->name('admin.users.role');
+    // !CRUD routes
+
     Route::get('/admin/users', [AdminPanelController::class, 'usersList'])->name('admin.users');
-    Route::get('/admin/user/role', [AdminPanelController::class, 'setRole'])->name('admin.users.role');
 
     Route::get('/admin/bags', [AdminPanelController::class, 'bagsList'])->name('admin.bags');
+    Route::get('/admin/create/form', [AdminPanelController::class, 'bagsList'])->name('admin.bags.create.form');
 });
