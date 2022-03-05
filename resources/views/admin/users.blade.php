@@ -37,7 +37,7 @@ use App\Models\User
     <form action="{{route('admin.users.role')}}" method="get" class="mb-5">
         <label>Set role</label>
 
-        <input name="id" type="text" placeholder="User id" class="form-control mb-2" autocomplete="off" value="{{old('id')}}">
+        <input name="id" type="number" min="1" placeholder="User id" class="form-control mb-2" autocomplete="off" value="{{old('id')}}">
 
         <select name="role" class="form-control h-50 mb-2">
             <option value="{{User::STATUS_USER}}">User</option>
