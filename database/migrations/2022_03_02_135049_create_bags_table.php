@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('bags', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('price');
             $table->integer('discount_price')->nullable();
             $table->string('image');

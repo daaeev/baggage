@@ -35,7 +35,7 @@ class UserRepository implements UserRepositoryInterface
         });
     }
 
-    public function getAllUsingGrid(InputSource $input)
+    public function getAllUsingGrid(InputSource $input, int $pageSize = 15)
     {
         $provider = new EloquentDataProvider(User::query());
 
@@ -45,7 +45,7 @@ class UserRepository implements UserRepositoryInterface
             new Column('email'),
             new Column('status'),
             new Column('action'),
-            new PaginationControl($input->option('page', 1), 15),
+            new PaginationControl($input->option('page', 1), $pageSize),
             new ColumnSortingControl('id', $input->option('sort')),
             new FilterControl('id', FilterOperation::OPERATOR_LIKE, $input->option('sort_id')),
             new FilterControl('status', FilterOperation::OPERATOR_LIKE, $input->option('sort_name')),

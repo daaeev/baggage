@@ -14,6 +14,7 @@ class AdminPanelController extends Controller
      * Метод отвечает за рендер страницы 'Users' админ панели
      *
      * @param UserRepositoryInterface $userRepository
+     * @param Request $request
      * @return mixed
      */
     public function usersList(UserRepositoryInterface $userRepository, Request $request)
@@ -28,6 +29,7 @@ class AdminPanelController extends Controller
      * Метод отвечает за рендер страницы 'Bags' админ панели
      *
      * @param BagsRepositoryInterface $bagsRepository
+     * @param Request $request
      * @return mixed
      */
     public function bagsList(BagsRepositoryInterface $bagsRepository, Request $request)
@@ -51,6 +53,8 @@ class AdminPanelController extends Controller
     /**
      * Метод отвечает за рендер страницы с формой редактирования товара в админ панели
      *
+     * @param BagsRepositoryInterface $bagsRepository
+     * @param Request $request
      * @return mixed
      */
     public function bagEditForm(BagsRepositoryInterface $bagsRepository, Request $request)

@@ -16,7 +16,7 @@ use ViewComponents\ViewComponents\Input\InputSource;
 
 class BagsRepository implements BagsRepositoryInterface
 {
-    public function getAllUsingGrid(InputSource $input)
+    public function getAllUsingGrid(InputSource $input, int $pageSize = 15)
     {
         $provider = new EloquentDataProvider(Bag::query());
 
@@ -30,7 +30,7 @@ class BagsRepository implements BagsRepositoryInterface
             (new Column('image'))->setValueFormatter(function($value) {
                 return "<img src = '" . asset("storage/$value") . "' alt='bag_preview_image' width='200px'>";
             }),
-            new PaginationControl($input->option('page', 1), 15),
+            new PaginationControl($input->option('page', 1), $pageSize),
             new ColumnSortingControl('id', $input->option('sort')),
             new FilterControl('id', FilterOperation::OPERATOR_LIKE, $input->option('sort_id')),
             new FilterControl('name', FilterOperation::OPERATOR_LIKE, $input->option('sort_name')),
@@ -54,5 +54,26 @@ class BagsRepository implements BagsRepositoryInterface
         return Bag::where('id', $id)->firstOr(function () {
             return null;
         });
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAllWithPag(int $pageSize = 15)
+    {
+        return Bag::where('count', '>', 0)
+            ->orderBy('created_at')
+            ->paginate($pageSize);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAllBySearchWithPag(string $search, int $pageSize = 15)
+    {
+        return Bag::where('count', '>', 0)
+            ->where('name', 'like', "%$search%")
+            ->orderBy('created_at')
+            ->paginate($pageSize);
     }
 }

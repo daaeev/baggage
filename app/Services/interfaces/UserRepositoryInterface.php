@@ -25,7 +25,8 @@ interface UserRepositoryInterface
      * Метод возвращает список всех пользователей,
      * используя библиотеку для построения таблицы (view-components/grid)
      * @param InputSource $input
+     * @param int $pageSize количество элементов на странице
      * @return mixed
      */
-    public function getAllUsingGrid(InputSource $input);
+    public function getAllUsingGrid(InputSource $input, int $pageSize = 15);
 }
