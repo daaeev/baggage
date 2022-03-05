@@ -81,14 +81,20 @@ class BagController extends Controller
 
         // Передано ли новое изображение. Если да - удалить старое, сохранить новое
         if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($bag->image);
+
+            if (!Storage::disk('public')->delete($bag->image)) {
+                $request->session()->flash('status_failed', "Old image delete failed");
+
+                return redirect(route('admin.bags.edit.form', ['id' => $bag->id]));
+            }
+
 
             // Сохранение нового файла изображения
             $file = $request->file('image');
             $bag->image = $file->store('bags_preview', 'public');
 
             if (!$bag->image) {
-                $request->session()->flash('status_failed', "Image save failed");
+                $request->session()->flash('status_failed', "New image save failed");
 
                 return redirect(route('admin.bags.edit.form', ['id' => $bag->id]));
             }
@@ -102,12 +108,41 @@ class BagController extends Controller
         $bag->count = $request->input('count');
 
         if (!$bag->save()) {
-            $request->session()->flash('status_failed', "Model save failed");
+            $request->session()->flash('status_failed', "Product save failed");
 
             return redirect(route('admin.bags.edit.form', ['id' => $bag->id]));
         }
 
         $request->session()->flash('status_success', "Product edited successfully");
+
+        return redirect(route('admin.bags'));
+    }
+
+    public function delete(Request $request, BagsRepositoryInterface $bagsRepository)
+    {
+        // Валидация полученных данных
+        $request->validate([
+            'id' => 'bail|required|integer|exists:\App\Models\Bag,id',
+        ]);
+
+        // Удаление товара
+        $bag = $bagsRepository->getFistOrNull($request->query('id'));
+        $bab_image = $bag->image;
+
+        if (!$bag->delete()) {
+            $request->session()->flash('status_failed', "Product delete failed");
+
+            return redirect(route('admin.bags'));
+        }
+
+        // Удаление изображения товара
+        if (!Storage::disk('public')->delete($bab_image)) {
+            $request->session()->flash('status_failed', "Image delete failed");
+
+            return redirect(route('admin.bags'));
+        }
+
+        $request->session()->flash('status_success', "Product delete successfully");
 
         return redirect(route('admin.bags'));
     }

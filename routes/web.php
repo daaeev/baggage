@@ -38,6 +38,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/user/role', [UserController::class, 'setRole'])->name('admin.users.role');
     Route::post('/admin/bags/create', [BagController::class, 'create'])->name('admin.bags.create');
     Route::post('/admin/bags/edit', [BagController::class, 'edit'])->name('admin.bags.edit');
+    Route::get('/admin/bags/delete', [BagController::class, 'delete'])->name('admin.bags.delete');
     // !CRUD routes
 
     Route::get('/admin/users', [AdminPanelController::class, 'usersList'])->name('admin.users');
