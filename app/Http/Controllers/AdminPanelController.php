@@ -47,4 +47,21 @@ class AdminPanelController extends Controller
     {
         return view('admin.bags_create_form');
     }
+
+    /**
+     * Метод отвечает за рендер страницы с формой редактирования товара в админ панели
+     *
+     * @return mixed
+     */
+    public function bagEditForm(BagsRepositoryInterface $bagsRepository, Request $request)
+    {
+        $request->validate([
+            'id' => 'bail|required|integer|exists:\App\Models\Bag,id',
+        ]);
+
+        $bag_id = $request->query('id');
+        $bag = $bagsRepository->getFistOrNull($bag_id);
+
+        return view('admin.bags_edit_form', compact('bag'));
+    }
 }

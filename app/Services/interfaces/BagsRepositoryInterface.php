@@ -2,6 +2,7 @@
 
 namespace App\Services\interfaces;
 
+use App\Models\Bag;
 use ViewComponents\ViewComponents\Input\InputSource;
 
 interface BagsRepositoryInterface
@@ -13,4 +14,12 @@ interface BagsRepositoryInterface
      * @return mixed
      */
     public function getAllUsingGrid(InputSource $input);
+
+    /**
+     * Метод возвращает экземпляр товара с id = $id,
+     * если такой имеется - иначе null
+     * @param int $id идентификатор товара в таблице 'bags'
+     * @return \App\Models\Bag|Null
+     */
+    public function getFistOrNull(int $id): Bag|null;
 }

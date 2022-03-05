@@ -6,28 +6,14 @@
 
 @section('content')
 
-    @if (session('status_failed'))
-        <div class="alert alert-success" role="alert">
-            {{ __(session('status_failed')) }}
-        </div>
-    @endif
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    @include('admin.errors')
 
     <form action="{{route('admin.bags.create')}}" method="post" enctype="multipart/form-data">
         @csrf
         <label>Create bag</label>
 
         <input name="name" type="text" placeholder="Name" class="form-control mb-2" autocomplete="off" required value="{{old('name')}}">
-        <textarea name="description" placeholder="Description" class="form-control mb-2" autocomplete="off" value="{{old('description')}}"></textarea>
+        <textarea name="description" placeholder="Description" class="form-control mb-2" autocomplete="off">{{old('description')}}</textarea>
         <input name="price" type="number" step="any" min="0" placeholder="Price (grivna)" class="form-control mb-2" autocomplete="off" required value="{{old('price')}}">
         <input name="discount_price" type="number" step="any" min="0" placeholder="Discount price (grivna)" class="form-control mb-2" autocomplete="off" value="{{old('discount_price')}}">
         <input name="count" type="number" min="0" placeholder="Count" class="form-control mb-2" autocomplete="off" required value="{{old('count')}}">

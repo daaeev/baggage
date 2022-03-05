@@ -4,8 +4,10 @@ namespace App\Http\Controllers\crud;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bag;
+use App\Services\interfaces\BagsRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class BagController extends Controller
 {
@@ -52,6 +54,60 @@ class BagController extends Controller
         }
 
         $request->session()->flash('status_success', "Product added successfully");
+
+        return redirect(route('admin.bags'));
+    }
+
+    /**
+     * Метод отвечает за редактирование данных товара с переданным id
+     *
+     * @param Request $request
+     * @param BagsRepositoryInterface $bagsRepository
+     * @return mixed
+     */
+    public function edit(Request $request, BagsRepositoryInterface $bagsRepository)
+    {
+        // Валидация полученных данных
+        $request->validate([
+            'id' => 'bail|required|integer|exists:\App\Models\Bag,id',
+            'name' => 'required|max:255',
+            'price' => 'numeric|required',
+            'discount_price' => 'nullable|numeric',
+            'count' => 'integer|required',
+            'image' => 'nullable|file|image',
+        ]);
+
+        $bag = $bagsRepository->getFistOrNull($request->input('id'));
+
+        // Передано ли новое изображение. Если да - удалить старое, сохранить новое
+        if ($request->hasFile('image')) {
+            Storage::disk('public')->delete($bag->image);
+
+            // Сохранение нового файла изображения
+            $file = $request->file('image');
+            $bag->image = $file->store('bags_preview', 'public');
+
+            if (!$bag->image) {
+                $request->session()->flash('status_failed', "Image save failed");
+
+                return redirect(route('admin.bags.edit.form', ['id' => $bag->id]));
+            }
+        }
+
+        // Сохранение переданных данных
+        $bag->name = $request->input('name');
+        $bag->description = $request->input('description');
+        $bag->price = $request->input('price');
+        $bag->discount_price = $request->input('discount_price');
+        $bag->count = $request->input('count');
+
+        if (!$bag->save()) {
+            $request->session()->flash('status_failed', "Model save failed");
+
+            return redirect(route('admin.bags.edit.form', ['id' => $bag->id]));
+        }
+
+        $request->session()->flash('status_success', "Product edited successfully");
 
         return redirect(route('admin.bags'));
     }

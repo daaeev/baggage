@@ -45,4 +45,14 @@ class BagsRepository implements BagsRepositoryInterface
 
         return $grid;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFistOrNull(int $id): Bag|null
+    {
+        return Bag::where('id', $id)->firstOr(function () {
+            return null;
+        });
+    }
 }
