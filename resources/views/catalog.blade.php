@@ -11,8 +11,10 @@
         <h3 class="title-wthree mb-lg-5 mb-4 text-center">Shop Now</h3>
 
         @if (!empty($search))
-            <h5 class="mb-2 text-center">Search result for: '{{$search}}'</h5>
+            <h5 class="mb-2 text-center">Search result for '{{$search}}':</h5>
         @endif
+
+        @if ($catalog->items())
         <!--/row-->
         <div class="row shop-wthree-info text-center">
             @foreach($catalog as $product)
@@ -51,6 +53,9 @@
             @endforeach
         </div>
         <!--//row-->
+        @else
+            <h2 class="mb-2 text-center">No result</h2>
+        @endif
 
         {{ $catalog->links() }}
     </div>
