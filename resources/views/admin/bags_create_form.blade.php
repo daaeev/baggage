@@ -19,6 +19,6 @@
         <input name="count" type="number" min="0" placeholder="Count" class="form-control mb-2" autocomplete="off" required value="{{old('count')}}">
         <input name="image" type="file" class="form-control mb-2" autocomplete="off" accept="image/*" required>
 
-        <input type="submit" class="btn btn-success" value="Set">
+        <input type="submit" class="btn btn-success" value="Create">
     </form>
 @endsection

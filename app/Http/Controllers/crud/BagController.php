@@ -138,7 +138,8 @@ class BagController extends Controller
         ]);
 
         // Удаление товара
-        $bag = $bagsRepository->getFistOrNull($request->query('id'));
+        $bag_id = $request->input('id');
+        $bag = $bagsRepository->getFistOrNull($bag_id);
         $bab_image = $bag->image;
 
         if (!$bag->delete()) {

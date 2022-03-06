@@ -27,8 +27,8 @@ class UserController extends Controller
             'role' => 'bail|required|integer|in:' . $stringOfUserStatuses,
         ]);
 
-        $user_id = $request->query('id');
-        $role = $request->query('role');
+        $user_id = $request->input('id');
+        $role = $request->input('role');
 
         // Сохранение данных пользователя в БД
         $user = $userRepository->getFistOrNull($user_id);
