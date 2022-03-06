@@ -6,7 +6,6 @@ use App\Models\Bag;
 use App\Services\interfaces\BagsRepositoryInterface;
 use ViewComponents\Eloquent\EloquentDataProvider;
 use ViewComponents\Grids\Component\Column;
-use ViewComponents\Grids\Component\ColumnSortingControl;
 use ViewComponents\Grids\Grid;
 use ViewComponents\ViewComponents\Component\Control\FilterControl;
 use ViewComponents\ViewComponents\Component\Control\PaginationControl;
@@ -31,12 +30,11 @@ class BagsRepository implements BagsRepositoryInterface
                 return "<img src = '" . asset("storage/$value") . "' alt='bag_preview_image' width='200px'>";
             }),
             new PaginationControl($input->option('page', 1), $pageSize),
-            new ColumnSortingControl('id', $input->option('sort')),
-            new FilterControl('id', FilterOperation::OPERATOR_LIKE, $input->option('sort_id')),
-            new FilterControl('name', FilterOperation::OPERATOR_LIKE, $input->option('sort_name')),
-            new FilterControl('count', FilterOperation::OPERATOR_LIKE, $input->option('sort_count')),
-            new FilterControl('price', FilterOperation::OPERATOR_LIKE, $input->option('sort_price')),
-            new FilterControl('discount_price', FilterOperation::OPERATOR_LIKE, $input->option('sort_discount_price')),
+            new FilterControl('id', FilterOperation::OPERATOR_LIKE, $input->option('filt_id')),
+            new FilterControl('name', FilterOperation::OPERATOR_LIKE, $input->option('filt_name')),
+            new FilterControl('count', FilterOperation::OPERATOR_LIKE, $input->option('filt_count')),
+            new FilterControl('price', FilterOperation::OPERATOR_LIKE, $input->option('filt_price')),
+            new FilterControl('discount_price', FilterOperation::OPERATOR_LIKE, $input->option('filt_discount_price')),
 
         ]);
 

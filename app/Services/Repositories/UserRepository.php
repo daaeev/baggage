@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\interfaces\UserRepositoryInterface;
 use ViewComponents\Eloquent\EloquentDataProvider;
 use ViewComponents\Grids\Component\Column;
-use ViewComponents\Grids\Component\ColumnSortingControl;
 use ViewComponents\Grids\Grid;
 use ViewComponents\ViewComponents\Component\Control\FilterControl;
 use ViewComponents\ViewComponents\Component\Control\PaginationControl;
@@ -43,12 +42,13 @@ class UserRepository implements UserRepositoryInterface
             new Column('id'),
             new Column('name'),
             new Column('email'),
+            (new Column('email_verified_at', 'Email verify'))->setValueFormatter(function($value) {
+                return $value ? 'Verified' : '';
+            }),
             new Column('status'),
-            new Column('action'),
             new PaginationControl($input->option('page', 1), $pageSize),
-            new ColumnSortingControl('id', $input->option('sort')),
-            new FilterControl('id', FilterOperation::OPERATOR_LIKE, $input->option('sort_id')),
-            new FilterControl('status', FilterOperation::OPERATOR_LIKE, $input->option('sort_name')),
+            new FilterControl('id', FilterOperation::OPERATOR_LIKE, $input->option('filt_id')),
+            new FilterControl('status', FilterOperation::OPERATOR_LIKE, $input->option('filt_name')),
 
         ]);
 
