@@ -27,4 +27,14 @@ class Bag extends Model
             ],
         ];
     }
+
+    /**
+     * Получить все заказы, связанные с товаром
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

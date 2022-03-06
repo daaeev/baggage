@@ -76,4 +76,14 @@ class BagsRepository implements BagsRepositoryInterface
             ->orderBy('created_at')
             ->paginate($pageSize);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFirstWhereOrNull(array $where)
+    {
+        return Bag::where($where)->firstOr(function () {
+            return null;
+        });
+    }
 }

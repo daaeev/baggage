@@ -24,7 +24,7 @@
     <div class="search-form ml-auto">
         <div class="form-w3layouts-grid">
             <form action="{{route('catalog')}}" method="get" class="newsletter">
-                <input class="search" type="search" placeholder="Search here..." required name="search" maxlength="25">
+                <input class="search" type="search" placeholder="Search here..." required name="search" maxlength="25" autocomplete="off">
                 <button class="form-control btn" value=""><span class="fa fa-search"></span></button>
             </form>
         </div>

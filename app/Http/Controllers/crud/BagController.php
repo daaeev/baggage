@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\crud;
 
 use App\Http\Controllers\Controller;
+use App\Mail\BuyProduct;
+use App\Mail\SubProduct;
 use App\Models\Bag;
+use App\Models\Order;
 use App\Services\interfaces\BagsRepositoryInterface;
+use App\Services\interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class BagController extends Controller
@@ -118,6 +123,13 @@ class BagController extends Controller
         return redirect(route('admin.bags'));
     }
 
+    /**
+     * Метод отвечает за удаление товара из таблицы 'bags'
+     *
+     * @param Request $request
+     * @param BagsRepositoryInterface $bagsRepository
+     * @return mixed
+     */
     public function delete(Request $request, BagsRepositoryInterface $bagsRepository)
     {
         // Валидация полученных данных
@@ -145,5 +157,64 @@ class BagController extends Controller
         $request->session()->flash('status_success', "Product delete successfully");
 
         return redirect(route('admin.bags'));
+    }
+
+    public function productCheck(int $id, BagsRepositoryInterface $bagsRepository, Request $request)
+    {
+        // Валидация данных
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        // Получение экземпляра товара
+        $bag = $bagsRepository->getFistOrNull($id);
+
+        if (!$bag) {
+            return redirect(route('home'));
+        }
+
+        // Определение класса письма
+        $mail = null;
+
+        if ($bag->count > 0) {
+            $mail = new BuyProduct($bag);
+        } else {
+            $mail = new SubProduct($bag);
+        }
+
+        // Отправка письма
+        Mail::to($request->query('email'))->send($mail);
+
+        $request->session()->flash('email_send', "Check your email");
+
+        return redirect(route('single', ['bag' => $bag->slug]));
+    }
+
+    public function createOrder(UserRepositoryInterface $userRepository, BagsRepositoryInterface $bagsRepository, Request $request)
+    {
+        $request->validate([
+            'bag' => 'required|exists:\App\Models\Bag,slug',
+            'number' => 'required|telephone',
+        ]);
+
+        $user_id = $userRepository->getAuthenticated()->id;
+        $bag_slug = $request->input('bag');
+        $bag_id = $bagsRepository->getFirstWhereOrNull([['slug', '=', $bag_slug]])->id;
+
+        $order = new Order;
+        $order->user_id = $user_id;
+        $order->bag_id = $bag_id;
+        $order->name = $request->input('name');
+        $order->number = $request->input('number');
+
+        if (!$order->save()) {
+            $request->session()->flash('email_send', "Order create failed");
+
+            return redirect(route('single', ['bag' => $bag_slug]));
+        }
+
+        $request->session()->flash('email_send', "Order created");
+
+        return redirect(route('single', ['bag' => $bag_slug]));
     }
 }

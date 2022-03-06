@@ -12,7 +12,7 @@
             <div class="left-ads-display wthree">
                 <div class="row">
                     <div class="desc1-left col-md-6">
-                        <img src="/upload/{{$bag->image}}" class="img-fluid" alt="Bag preview">
+                        <img src="{{asset('storage/' . $bag->image)}}" class="img-fluid" alt="bag_preview">
                     </div>
                     <div class="desc1-right col-md-6 pl-lg-3">
                         <h3>{{$bag->name}}</h3>
@@ -22,17 +22,27 @@
                             @else
                                 {{$bag->price}}грн
                             @endif
-                            <a href="#">Click for offer</a>
-                        </h5>
-                        <div class="available mt-3">
-                            <form action="#" method="post" class="w3pvt-newsletter subscribe-sec">
-                                <input type="email" name="Email" placeholder="Enter your email..." required="">
-                                <button class="btn submit">Check</button>
 
-                            </form>
-                            <span><a href="#">login to save in wishlist </a></span>
-                            <p>{{substr($bag->description, 0, 90)}}.. </p>
+                        </h5>
+
+                        <div class="available mt-3">
+                            @auth
+                                <form action="{{route('product.check', ['id' => $bag->id])}}" method="get" class="w3pvt-newsletter subscribe-sec">
+                                    <input type="email" name="email" placeholder="Enter your email..." required>
+                                    <button class="btn submit">Check</button>
+
+                                    @if (session('email_send'))
+                                        <span class="alert alert-success">{{session('email_send')}}</span>
+                                    @endif
+
+                                </form>
+                            @else
+                                <h2><a href="{{route('login')}}">Login to offer </a></h2>
+                            @endauth
+
+                            <p class="mt-5">{{substr($bag->description, 0, 90)}}.. </p>
                         </div>
+
                         <div class="share-desc mt-5">
                             <div class="share text-left">
                                 <h4>Share Product :</h4>

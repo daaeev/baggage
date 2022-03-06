@@ -57,6 +57,11 @@ class SiteController extends Controller
         return view('catalog', compact('catalog', 'search'));
     }
 
+    public function orderForm($bag_slug)
+    {
+        return view('order_form', compact('bag_slug'));
+    }
+
     /**
      * Метод отвечает за рендер страницы подписка на рассылку
      *

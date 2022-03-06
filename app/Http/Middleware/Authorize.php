@@ -25,7 +25,7 @@ class Authorize
     public function handle(Request $request, Closure $next)
     {
         if (!$this->userRepository->getAuthenticated()) {
-            return response()->redirectTo(route('home'));
+            return response()->redirectTo(route('login'));
         }
 
         return $next($request);

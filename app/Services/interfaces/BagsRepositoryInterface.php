@@ -41,4 +41,12 @@ interface BagsRepositoryInterface
      * @return mixed
      */
     public function getAllBySearchWithPag(string $search, int $pageSize = 15);
+
+    /**
+     * Метод возвращает экземпляр товара, который соответствует условию $where
+     *
+     * @param array $where условное выражение в виде массива для метода where()
+     * @return Bag|Null
+     */
+    public function getFirstWhereOrNull(array $where);
 }

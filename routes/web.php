@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
-use App\Services\UrlGen;
-use App\Http\Controllers\AuthorizationController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\crud\UserController;
 use App\Http\Controllers\crud\BagController;
@@ -24,7 +22,15 @@ Route::get('/about', [SiteController::class, 'about'])->name('about');
 Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
 Route::get('/catalog', [SiteController::class, 'catalog'])->name('catalog');
 Route::get('/newsletter', [SiteController::class, 'newsletter'])->name('newsletter');
-Route::get('/catalog/product/{bag:slug}', [SiteController::class, 'single'])->name('single');
+
+Route::get('/catalog/{bag:slug}', [SiteController::class, 'single'])->name('single');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/product/check/{id}', [BagController::class, 'productCheck'])->name('product.check');
+    Route::get('/product/order/{bag_slug}/form', [SiteController::class, 'orderForm'])->name('product.order.form');
+    Route::post('/product/order/create', [BagController::class, 'createOrder'])->name('product.order.create');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [SiteController::class, 'profile'])->name('profile');
@@ -47,3 +53,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/bags/create/form', [AdminPanelController::class, 'bagCreateForm'])->name('admin.bags.create.form');
     Route::get('/admin/bags/edit/form', [AdminPanelController::class, 'bagEditForm'])->name('admin.bags.edit.form');
 });
+
+
+
+
+
+
+Route::get('/mail', [SiteController::class, 'mail']);
