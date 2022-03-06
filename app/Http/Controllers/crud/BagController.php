@@ -160,6 +160,14 @@ class BagController extends Controller
         return redirect(route('admin.bags'));
     }
 
+    /**
+     * Метод отвечает за отправку сообщения о товаре на почту
+     *
+     * @param int $id идентификатор товара
+     * @param BagsRepositoryInterface $bagsRepository
+     * @param Request $request
+     * @return mixed
+     */
     public function productCheck(int $id, BagsRepositoryInterface $bagsRepository, Request $request)
     {
         // Валидация данных
@@ -191,17 +199,28 @@ class BagController extends Controller
         return redirect(route('single', ['bag' => $bag->slug]));
     }
 
+    /**
+     * Метод отвечает за сохранение данных о заказе в таблице 'orders'
+     *
+     * @param UserRepositoryInterface $userRepository
+     * @param BagsRepositoryInterface $bagsRepository
+     * @param Request $request
+     * @return mixed
+     */
     public function createOrder(UserRepositoryInterface $userRepository, BagsRepositoryInterface $bagsRepository, Request $request)
     {
+        // Валидация данных
         $request->validate([
             'bag' => 'required|exists:\App\Models\Bag,slug',
             'number' => 'required|telephone',
         ]);
 
+        // Получение данных для заполнения информации о заказе
         $user_id = $userRepository->getAuthenticated()->id;
         $bag_slug = $request->input('bag');
         $bag_id = $bagsRepository->getFirstWhereOrNull([['slug', '=', $bag_slug]])->id;
 
+        // Заполнение и сохранение данных заказа
         $order = new Order;
         $order->user_id = $user_id;
         $order->bag_id = $bag_id;
