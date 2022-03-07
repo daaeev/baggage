@@ -7,7 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SubProduct extends Mailable
+class SryProduct extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,6 +28,6 @@ class SubProduct extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.product_sub');
+        return $this->view('mails.product_sry');
     }
 }

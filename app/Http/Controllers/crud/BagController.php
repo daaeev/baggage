@@ -4,7 +4,7 @@ namespace App\Http\Controllers\crud;
 
 use App\Http\Controllers\Controller;
 use App\Mail\BuyProduct;
-use App\Mail\SubProduct;
+use App\Mail\SryProduct;
 use App\Models\Bag;
 use App\Models\Order;
 use App\Services\interfaces\BagsRepositoryInterface;
@@ -188,7 +188,7 @@ class BagController extends Controller
         if ($bag->count > 0) {
             $mail = new BuyProduct($bag);
         } else {
-            $mail = new SubProduct($bag);
+            $mail = new SryProduct($bag);
         }
 
         // Отправка письма
