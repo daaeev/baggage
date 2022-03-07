@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Services\interfaces\BagsRepositoryInterface;
 use App\Services\interfaces\OrdersRepositoryInterface;
+use App\Services\interfaces\ReceiptRepositoryInterface;
 use App\Services\interfaces\UserRepositoryInterface;
 use App\Services\Repositories\BagsRepository;
 use App\Services\Repositories\OrdersRepository;
+use App\Services\Repositories\ReceiptRepository;
 use App\Services\Repositories\UserRepository;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
@@ -18,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
         UserRepositoryInterface::class => UserRepository::class,
         BagsRepositoryInterface::class => BagsRepository::class,
         OrdersRepositoryInterface::class => OrdersRepository::class,
+        ReceiptRepositoryInterface::class => ReceiptRepository::class,
     ];
 
     /**

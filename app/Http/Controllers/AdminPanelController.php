@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Services\interfaces\BagsRepositoryInterface;
 use App\Services\interfaces\OrdersRepositoryInterface;
+use App\Services\interfaces\ReceiptRepositoryInterface;
 use App\Services\interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use ViewComponents\ViewComponents\Input\InputSource;
@@ -54,6 +55,21 @@ class AdminPanelController extends Controller
         $grid = $ordersRepository->getAllUsingGrid($input);
 
         return view('admin.orders', compact('grid'));
+    }
+
+    /**
+     * Метод отвечает за рендер страницы 'Receipts' админ панели
+     *
+     * @param OrdersRepositoryInterface $ordersRepository
+     * @param Request $request
+     * @return mixed
+     */
+    public function receiptsList(ReceiptRepositoryInterface $receiptRepository, Request $request)
+    {
+        $input = new InputSource($request->query());
+        $grid = $receiptRepository->getAllUsingGrid($input);
+
+        return view('admin.receipts', compact('grid'));
     }
 
     /**
