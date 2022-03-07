@@ -216,9 +216,19 @@ class BagController extends Controller
         ]);
 
         // Получение данных для заполнения информации о заказе
-        $user_id = $userRepository->getAuthenticated()->id;
         $bag_slug = $request->input('bag');
-        $bag_id = $bagsRepository->getFirstWhereOrNull([['slug', '=', $bag_slug]])->id;
+        $bag = $bagsRepository->getFirstWhereOrNull([['slug', '=', $bag_slug]]);
+
+        // Проверка количества товара
+        if (($bag->count <= 0)) {
+            $request->session()->flash('email_send', "Error");
+
+            return redirect(route('single', ['bag' => $bag_slug]));
+        }
+
+        $bag_id = $bag->id;
+        $user_id = $userRepository->getAuthenticated()->id;
+
 
         // Заполнение и сохранение данных заказа
         $order = new Order;
