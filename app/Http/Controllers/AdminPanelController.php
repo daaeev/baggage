@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\interfaces\BagsRepositoryInterface;
+use App\Services\interfaces\OrdersRepositoryInterface;
 use App\Services\interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use ViewComponents\ViewComponents\Input\InputSource;
@@ -38,6 +39,21 @@ class AdminPanelController extends Controller
         $grid = $bagsRepository->getAllUsingGrid($input);
 
         return view('admin.bags', compact('grid'));
+    }
+
+    /**
+     * Метод отвечает за рендер страницы 'Orders' админ панели
+     *
+     * @param OrdersRepositoryInterface $ordersRepository
+     * @param Request $request
+     * @return mixed
+     */
+    public function ordersList(OrdersRepositoryInterface $ordersRepository, Request $request)
+    {
+        $input = new InputSource($request->query());
+        $grid = $ordersRepository->getAllUsingGrid($input);
+
+        return view('admin.orders', compact('grid'));
     }
 
     /**

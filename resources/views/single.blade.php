@@ -34,7 +34,6 @@
                                     @if (session('email_send'))
                                         <span class="alert alert-success">{{session('email_send')}}</span>
                                     @endif
-
                                 </form>
                             @else
                                 <h2><a href="{{route('login')}}">Login to offer </a></h2>

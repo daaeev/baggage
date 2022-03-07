@@ -3,10 +3,11 @@
 namespace App\Providers;
 
 use App\Services\interfaces\BagsRepositoryInterface;
+use App\Services\interfaces\OrdersRepositoryInterface;
 use App\Services\interfaces\UserRepositoryInterface;
 use App\Services\Repositories\BagsRepository;
+use App\Services\Repositories\OrdersRepository;
 use App\Services\Repositories\UserRepository;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -16,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public $bindings = [
         UserRepositoryInterface::class => UserRepository::class,
         BagsRepositoryInterface::class => BagsRepository::class,
+        OrdersRepositoryInterface::class => OrdersRepository::class,
     ];
 
     /**

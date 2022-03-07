@@ -233,7 +233,7 @@ class BagController extends Controller
             return redirect(route('single', ['bag' => $bag_slug]));
         }
 
-        $request->session()->flash('email_send', "Order created");
+        $request->session()->flash('email_send', "Order created. Wait");
 
         return redirect(route('single', ['bag' => $bag_slug]));
     }

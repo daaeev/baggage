@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\crud\UserController;
 use App\Http\Controllers\crud\BagController;
+use App\Http\Controllers\crud\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,9 +43,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // CRUD routes
     Route::post('/admin/user/role', [UserController::class, 'setRole'])->name('admin.users.role');
+
     Route::post('/admin/bags/create', [BagController::class, 'create'])->name('admin.bags.create');
     Route::post('/admin/bags/edit', [BagController::class, 'edit'])->name('admin.bags.edit');
     Route::post('/admin/bags/delete', [BagController::class, 'delete'])->name('admin.bags.delete');
+
+    Route::post('/admin/orders/decline', [OrderController::class, 'declineOrder'])->name('admin.orders.decline');
     // !CRUD routes
 
     Route::get('/admin/users', [AdminPanelController::class, 'usersList'])->name('admin.users');
@@ -52,4 +56,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/bags', [AdminPanelController::class, 'bagsList'])->name('admin.bags');
     Route::get('/admin/bags/create/form', [AdminPanelController::class, 'bagCreateForm'])->name('admin.bags.create.form');
     Route::get('/admin/bags/edit/form', [AdminPanelController::class, 'bagEditForm'])->name('admin.bags.edit.form');
+
+    Route::get('/admin/orders', [AdminPanelController::class, 'ordersList'])->name('admin.orders');
 });
