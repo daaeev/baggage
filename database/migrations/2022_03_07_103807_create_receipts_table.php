@@ -13,16 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('receipts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('bag_id');
             $table->string('name', 30)->nullable();
-            $table->string('number', 30);
+            $table->string('tel_number', 30);
+            $table->string('order_number', 10);
             $table->timestamps();
 
-            $table->foreign('user_id', 'fk-orders-user_id')->references('id')->on('users');
-            $table->foreign('bag_id', 'fk-orders-bag_id')->references('id')->on('bags');
+            $table->foreign('user_id', 'fk-receipts-user_id')->references('id')->on('users');
+            $table->foreign('bag_id', 'fk-receipts-bag_id')->references('id')->on('bags');
         });
     }
 
@@ -33,11 +34,11 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->dropForeign('fk-orders-user_id');
-            $table->dropForeign('fk-orders-bag_id');
+        Schema::table('receipts', function (Blueprint $table) {
+            $table->dropForeign('fk-receipts-user_id');
+            $table->dropForeign('fk-receipts-bag_id');
         });
 
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('receipts');
     }
 };

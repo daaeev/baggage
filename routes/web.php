@@ -49,6 +49,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/bags/delete', [BagController::class, 'delete'])->name('admin.bags.delete');
 
     Route::post('/admin/orders/decline', [OrderController::class, 'declineOrder'])->name('admin.orders.decline');
+    Route::post('/admin/orders/accept', [OrderController::class, 'acceptOrder'])->name('admin.orders.accept');
     // !CRUD routes
 
     Route::get('/admin/users', [AdminPanelController::class, 'usersList'])->name('admin.users');
