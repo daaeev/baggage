@@ -4,15 +4,19 @@ namespace App\Http\Controllers\crud;
 
 use App\Http\Controllers\Controller;
 use App\Mail\BuyProduct;
-use App\Mail\SryProduct;
+use App\Mail\SubProduct;
 use App\Models\Bag;
 use App\Models\Order;
+use App\Models\Receipt;
+use App\Models\Subscription;
 use App\Services\interfaces\BagsRepositoryInterface;
+use App\Services\interfaces\SubscribeRepositoryInterface;
 use App\Services\interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class BagController extends Controller
 {
@@ -188,7 +192,7 @@ class BagController extends Controller
         if ($bag->count > 0) {
             $mail = new BuyProduct($bag);
         } else {
-            $mail = new SryProduct($bag);
+            $mail = new SubProduct($bag);
         }
 
         // Отправка письма
@@ -246,5 +250,44 @@ class BagController extends Controller
         $request->session()->flash('email_send', "Order created. Wait");
 
         return redirect(route('single', ['bag' => $bag_slug]));
+    }
+
+    public function subProduct(Request $request, BagsRepositoryInterface $bagsRepository, UserRepositoryInterface $userRepository, SubscribeRepositoryInterface $subscribeRepository)
+    {
+        // Валидация данных
+        $request->validate([
+            'slug' => [
+                'required',
+                'exists:\App\Models\Bag,slug',
+                'countIsZero:\App\Models\Bag,count',
+            ],
+        ]);
+
+        // Получение данных для заполнения модели
+        $user_id = $userRepository->getAuthenticated()->id;
+        $bag_slug = $request->input('slug');
+        $bag_id = $bagsRepository->getFirstWhereOrNull([['slug', '=', $bag_slug]])->id;
+
+        // Проверка, подписан ли уже пользователь
+        if ($subscribeRepository->userIsSubscribed($user_id, $bag_id)) {
+            $request->session()->flash('sub_status', "You already subscribe");
+
+            return redirect(route('single', ['bag' => $bag_slug]) . '#sub');
+        }
+
+        // Сохранение данных в БД
+        $model = new Subscription;
+        $model->user_id = $user_id;
+        $model->bag_id = $bag_id;
+
+        if (!$model->save()) {
+            $request->session()->flash('sub_status', "Subscription failed");
+
+            return redirect(route('single', ['bag' => $bag_slug]) . '#sub');
+        }
+
+        $request->session()->flash('sub_status', "Subscription success");
+
+        return redirect(route('single', ['bag' => $bag_slug]) . '#sub');
     }
 }

@@ -35,6 +35,26 @@ class Bag extends Model
      */
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'fk-orders-bag_id');
+    }
+
+    /**
+     * Получить подписки на данный товар
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class, 'fk-subscriptions-bag_id');
+    }
+
+    /**
+     * Получить чеки, связанные с данным товаром
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function receipts()
+    {
+        return $this->hasMany(Receipt::class, 'fk-receipts-bag_id');
     }
 }

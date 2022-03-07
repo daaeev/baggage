@@ -181,22 +181,27 @@
     </section>
     <!-- /banner-bottom -->
     <!--/newsletter -->
+    <a name="sub"></a>
     <section class="newsletter-w3pvt py-5">
         <div class="container py-md-5">
-            <form method="post" action="#">
-                <p class="text-center">Subscribe to the Handbags Store mailing list to receive updates on new arrivals, special offers and other discount information.</p>
+            <form method="post" action="{{route('product.sub')}}">
+                @csrf
+                <p class="text-center">If the product is out of stock - you can subscribe to a product. You will receive an email notification when the product becomes available</p>
                 <div class="row subscribe-sec">
-                    <div class="col-md-9">
-                        <input type="email" class="form-control" id="email" placeholder="Enter Your Email.." name="email" required="">
-
-                    </div>
-                    <div class="col-md-3">
-
+                    <div class="col-md-12 text-center">
+                        <input type="hidden" name="slug" value="{{$bag->slug}}">
                         <button type="submit" class="btn submit">Subscribe</button>
+
+                        @if (session('sub_status'))
+                            <span class="alert alert-primary">{{session('sub_status')}}</span>
+                        @endif
+
+                        @if ($errors->has('slug'))
+                            <span class="alert alert-danger">{{$errors->get('slug')[0]}}</span>
+                        @endif
+
                     </div>
-
                 </div>
-
             </form>
         </div>
     </section>

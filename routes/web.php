@@ -30,6 +30,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/product/check/{id}', [BagController::class, 'productCheck'])->name('product.check');
     Route::get('/product/order/{bag_slug}/form', [SiteController::class, 'orderForm'])->name('product.order.form');
     Route::post('/product/order/create', [BagController::class, 'createOrder'])->name('product.order.create');
+
+    Route::post('/product/subscribe', [BagController::class, 'subProduct'])->name('product.sub');
 });
 
 
@@ -59,4 +61,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/bags/edit/form', [AdminPanelController::class, 'bagEditForm'])->name('admin.bags.edit.form');
 
     Route::get('/admin/orders', [AdminPanelController::class, 'ordersList'])->name('admin.orders');
+
+    Route::get('/admin/receipts', [AdminPanelController::class, 'receiptsList'])->name('admin.receipts');
 });

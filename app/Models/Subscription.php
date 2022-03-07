@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Subscription extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     /**
-     * Получить пользователя данного заказа
+     * Получить пользователя данной подписки
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -20,7 +22,7 @@ class Order extends Model
     }
 
     /**
-     * Получить товар данного заказа
+     * Получить товар данной подписки
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

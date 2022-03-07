@@ -77,6 +77,26 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'fk-orders-user_id');
+    }
+
+    /**
+     * Получить подписки на товары пользователя
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class, 'fk-subscriptions-user_id');
+    }
+
+    /**
+     * Получить чеки пользователя
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function receipts()
+    {
+        return $this->hasMany(Receipt::class, 'fk-receipts-user_id');
     }
 }
