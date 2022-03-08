@@ -7,19 +7,19 @@ use App\Mail\BuyProduct;
 use App\Mail\SubProduct;
 use App\Models\Bag;
 use App\Models\Order;
-use App\Models\Receipt;
 use App\Models\Subscription;
 use App\Services\interfaces\BagsRepositoryInterface;
 use App\Services\interfaces\SubscribeRepositoryInterface;
 use App\Services\interfaces\UserRepositoryInterface;
+use App\Services\traits\ReturnWithRedirectAndFlash;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 
 class BagController extends Controller
 {
+    use ReturnWithRedirectAndFlash;
+
     /**
      * Метод отвечает за сохранение данных о новом товаре в БД
      *
@@ -42,9 +42,12 @@ class BagController extends Controller
         $image_path = $file->store('bags_preview', 'public');
 
         if (!$image_path) {
-            $request->session()->flash('status_failed', "Image save failed");
-
-            return redirect(route('admin.bags.create.form'));
+            return $this->withRedirectAndFlash(
+                'status_failed',
+                'Image save failed',
+                route('admin.bags.create.form'),
+                $request
+            );
         }
 
         // Сохранение данных в БД
@@ -57,14 +60,20 @@ class BagController extends Controller
         $model->image = $image_path;
 
         if (!$model->save()) {
-            $request->session()->flash('status_failed', "Model save failed");
-
-            return redirect(route('admin.bags.create.form'));
+            return $this->withRedirectAndFlash(
+                'status_failed',
+                'Model save failed',
+                route('admin.bags.create.form'),
+                $request
+            );
         }
 
-        $request->session()->flash('status_success', "Product added successfully");
-
-        return redirect(route('admin.bags'));
+        return $this->withRedirectAndFlash(
+            'status_success',
+            'Product added successfully',
+            route('admin.bags'),
+            $request
+        );
     }
 
     /**
@@ -92,9 +101,12 @@ class BagController extends Controller
         if ($request->hasFile('image')) {
 
             if (!Storage::disk('public')->delete($bag->image)) {
-                $request->session()->flash('status_failed', "Old image delete failed");
-
-                return redirect(route('admin.bags.edit.form', ['id' => $bag->id]));
+                return $this->withRedirectAndFlash(
+                    'status_failed',
+                    'Old image delete failed',
+                    route('admin.bags.edit.form', ['id' => $bag->id]),
+                    $request
+                );
             }
 
 
@@ -103,9 +115,12 @@ class BagController extends Controller
             $bag->image = $file->store('bags_preview', 'public');
 
             if (!$bag->image) {
-                $request->session()->flash('status_failed', "New image save failed");
-
-                return redirect(route('admin.bags.edit.form', ['id' => $bag->id]));
+                return $this->withRedirectAndFlash(
+                    'status_failed',
+                    'New image save failed',
+                    route('admin.bags.edit.form', ['id' => $bag->id]),
+                    $request
+                );
             }
         }
 
@@ -117,14 +132,20 @@ class BagController extends Controller
         $bag->count = $request->input('count');
 
         if (!$bag->save()) {
-            $request->session()->flash('status_failed', "Product save failed");
-
-            return redirect(route('admin.bags.edit.form', ['id' => $bag->id]));
+            return $this->withRedirectAndFlash(
+                'status_failed',
+                'Product save failed',
+                route('admin.bags.edit.form', ['id' => $bag->id]),
+                $request
+            );
         }
 
-        $request->session()->flash('status_success', "Product edited successfully");
-
-        return redirect(route('admin.bags'));
+        return $this->withRedirectAndFlash(
+            'status_success',
+            'Product edited successfully',
+            route('admin.bags', ['id' => $bag->id]),
+            $request
+        );
     }
 
     /**
@@ -147,21 +168,30 @@ class BagController extends Controller
         $bab_image = $bag->image;
 
         if (!$bag->delete()) {
-            $request->session()->flash('status_failed', "Product delete failed");
-
-            return redirect(route('admin.bags'));
+            return $this->withRedirectAndFlash(
+                'status_failed',
+                'Product delete failed"',
+                route('admin.bags'),
+                $request
+            );
         }
 
         // Удаление изображения товара
         if (!Storage::disk('public')->delete($bab_image)) {
-            $request->session()->flash('status_failed', "Image delete failed");
-
-            return redirect(route('admin.bags'));
+            return $this->withRedirectAndFlash(
+                'status_failed',
+                'Image delete failed',
+                route('admin.bags'),
+                $request
+            );
         }
 
-        $request->session()->flash('status_success', "Product delete successfully");
-
-        return redirect(route('admin.bags'));
+        return $this->withRedirectAndFlash(
+            'status_success',
+            'Product delete successfully',
+            route('admin.bags'),
+            $request
+        );
     }
 
     /**
@@ -172,8 +202,11 @@ class BagController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function productCheck(int $id, BagsRepositoryInterface $bagsRepository, Request $request)
-    {
+    public function productCheck(
+        int $id,
+        BagsRepositoryInterface $bagsRepository,
+        Request $request
+    ) {
         // Валидация данных
         $request->validate([
             'email' => 'required|email',
@@ -198,9 +231,12 @@ class BagController extends Controller
         // Отправка письма
         Mail::to($request->query('email'))->send($mail);
 
-        $request->session()->flash('email_send', "Check your email");
-
-        return redirect(route('single', ['bag' => $bag->slug]));
+        return $this->withRedirectAndFlash(
+            'email_send',
+            'Check your email',
+            route('single', ['bag' => $bag->slug]),
+            $request
+        );
     }
 
     /**
@@ -211,8 +247,11 @@ class BagController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function createOrder(UserRepositoryInterface $userRepository, BagsRepositoryInterface $bagsRepository, Request $request)
-    {
+    public function createOrder(
+        UserRepositoryInterface $userRepository,
+        BagsRepositoryInterface $bagsRepository,
+        Request $request
+    ) {
         // Валидация данных
         $request->validate([
             'bag' => 'required|exists:\App\Models\Bag,slug',
@@ -225,9 +264,12 @@ class BagController extends Controller
 
         // Проверка количества товара
         if (($bag->count <= 0)) {
-            $request->session()->flash('email_send', "Error");
-
-            return redirect(route('single', ['bag' => $bag_slug]));
+            return $this->withRedirectAndFlash(
+                'email_send',
+                'Error',
+                route('single', ['bag' => $bag->slug]),
+                $request
+            );
         }
 
         $bag_id = $bag->id;
@@ -242,18 +284,28 @@ class BagController extends Controller
         $order->number = $request->input('number');
 
         if (!$order->save()) {
-            $request->session()->flash('email_send', "Order create failed");
-
-            return redirect(route('single', ['bag' => $bag_slug]));
+            return $this->withRedirectAndFlash(
+                'email_send',
+                'Order create failed',
+                route('single', ['bag' => $bag->slug]),
+                $request
+            );
         }
 
-        $request->session()->flash('email_send', "Order created. Wait");
-
-        return redirect(route('single', ['bag' => $bag_slug]));
+        return $this->withRedirectAndFlash(
+            'email_send',
+            'Order created. Wait',
+            route('single', ['bag' => $bag->slug]),
+            $request
+        );
     }
 
-    public function subProduct(Request $request, BagsRepositoryInterface $bagsRepository, UserRepositoryInterface $userRepository, SubscribeRepositoryInterface $subscribeRepository)
-    {
+    public function subProduct(
+        Request $request,
+        BagsRepositoryInterface $bagsRepository,
+        UserRepositoryInterface $userRepository,
+        SubscribeRepositoryInterface $subscribeRepository
+    ) {
         // Валидация данных
         $request->validate([
             'slug' => [
@@ -270,9 +322,12 @@ class BagController extends Controller
 
         // Проверка, подписан ли уже пользователь
         if ($subscribeRepository->userIsSubscribed($user_id, $bag_id)) {
-            $request->session()->flash('sub_status', "You already subscribe");
-
-            return redirect(route('single', ['bag' => $bag_slug]) . '#sub');
+            return $this->withRedirectAndFlash(
+                'sub_status',
+                'You already subscribe',
+                route('single', ['bag' => $bag_slug]) . '#sub',
+                $request
+            );
         }
 
         // Сохранение данных в БД
@@ -281,13 +336,19 @@ class BagController extends Controller
         $model->bag_id = $bag_id;
 
         if (!$model->save()) {
-            $request->session()->flash('sub_status', "Subscription failed");
-
-            return redirect(route('single', ['bag' => $bag_slug]) . '#sub');
+            return $this->withRedirectAndFlash(
+                'sub_status',
+                'Subscription failed',
+                route('single', ['bag' => $bag_slug]) . '#sub',
+                $request
+            );
         }
 
-        $request->session()->flash('sub_status', "Subscription success");
-
-        return redirect(route('single', ['bag' => $bag_slug]) . '#sub');
+        return $this->withRedirectAndFlash(
+            'sub_status',
+            'Subscription success',
+            route('single', ['bag' => $bag_slug]) . '#sub',
+            $request
+        );
     }
 }

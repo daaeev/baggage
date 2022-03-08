@@ -8,6 +8,7 @@ use App\Models\Receipt;
 use App\Services\interfaces\BagsRepositoryInterface;
 use App\Services\interfaces\OrdersRepositoryInterface;
 use App\Services\interfaces\UserRepositoryInterface;
+use App\Services\traits\ReturnWithRedirectAndFlash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -15,6 +16,8 @@ use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
+    use ReturnWithRedirectAndFlash;
+
     /**
      * Метод отвечает за отклонение заказа (его удаление из таблицы 'orders')
      *
@@ -35,14 +38,20 @@ class OrderController extends Controller
 
         // Удаление данных из БД
         if (!$order->delete()) {
-            $request->session()->flash('status_failed', "Order decline with id $order_id failed");
-
-            return redirect(route('admin.orders'));
+            return $this->withRedirectAndFlash(
+                'status_failed',
+                'Order decline with id $order_id failed',
+                route('admin.orders'),
+                $request
+            );
         }
 
-        $request->session()->flash('status_success', "Order decline success");
-
-        return redirect(route('admin.orders'));
+        return $this->withRedirectAndFlash(
+            'status_success',
+            'Order decline success',
+            route('admin.orders'),
+            $request
+        );
     }
 
     /**
@@ -54,8 +63,12 @@ class OrderController extends Controller
      * @param BagsRepositoryInterface $bagsRepository
      * @return mixed
      */
-    public function acceptOrder(Request $request, OrdersRepositoryInterface $ordersRepository, UserRepositoryInterface $userRepository, BagsRepositoryInterface $bagsRepository)
-    {
+    public function acceptOrder(
+        Request $request,
+        OrdersRepositoryInterface $ordersRepository,
+        UserRepositoryInterface $userRepository,
+        BagsRepositoryInterface $bagsRepository
+    ) {
         // Валидация данных
         $request->validate([
             'order_id' => 'required|exists:\App\Models\Order,id',
@@ -84,17 +97,23 @@ class OrderController extends Controller
                 $order->delete();
             });
         } catch (\Throwable) {
-            $request->session()->flash('status_failed', "Order accept with id $order_id failed");
-
-            return redirect(route('admin.orders'));
+            return $this->withRedirectAndFlash(
+                'status_failed',
+                'Order accept with id $order_id failed',
+                route('admin.orders'),
+                $request
+            );
         }
 
         // Отправка чека на почту пользователя
         $mail = new OrderReceipt($receipt->order_number);
         Mail::to($userRepository->getAuthenticated()->email)->send($mail);
 
-        $request->session()->flash('status_success', "Order accept success");
-
-        return redirect(route('admin.orders'));
+        return $this->withRedirectAndFlash(
+            'status_success',
+            'Order accept success',
+            route('admin.orders'),
+            $request
+        );
     }
 }

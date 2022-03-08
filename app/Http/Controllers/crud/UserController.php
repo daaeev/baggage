@@ -5,10 +5,13 @@ namespace App\Http\Controllers\crud;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\interfaces\UserRepositoryInterface;
+use App\Services\traits\ReturnWithRedirectAndFlash;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    use ReturnWithRedirectAndFlash;
+
     /**
      * Метод устанавливет статус определенному пользователю
      *
@@ -34,13 +37,19 @@ class UserController extends Controller
         $user = $userRepository->getFistOrNull($user_id);
         $user->status = $role;
         if (!$user->save()) {
-            $request->session()->flash('status_failed', "Save failed");
-
-            return redirect(route('admin.users'));
+            return $this->withRedirectAndFlash(
+                'status_failed',
+                'Save failed',
+                route('admin.users'),
+                $request
+            );
         }
 
-        $request->session()->flash('status_success', "Role is set");
-
-        return redirect(route('admin.users'));
+        return $this->withRedirectAndFlash(
+            'status_success',
+            'Role is set',
+            route('admin.users'),
+            $request
+        );
     }
 }
