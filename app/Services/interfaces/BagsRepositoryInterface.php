@@ -25,7 +25,7 @@ interface BagsRepositoryInterface
     public function getFistOrNull(int $id): Bag|null;
 
     /**
-     * Метод получает все товары из таблицы с использыванием пагинации
+     * Метод получает все последние товары из таблицы с использыванием пагинации
      *
      * @param int $pageSize количество элементов на страницу
      * @return mixed
@@ -33,7 +33,7 @@ interface BagsRepositoryInterface
     public function getAllWithPag(int $pageSize = 15);
 
     /**
-     * Метод получает все товары, названия которых похожи переданной строке
+     * Метод получает все последние товары, названия которых похожи переданной строке
      * из таблицы с использыванием пагинации
      *
      * @param string $search строка, по которой производится поиск
@@ -49,4 +49,13 @@ interface BagsRepositoryInterface
      * @return Bag|Null
      */
     public function getFirstWhereOrNull(array $where);
+
+    /**
+     * Метод возвращает последние рекомендации для товара $bag
+     *
+     * @param Bag $bag экземпляр товара
+     * @param int $count количество получаемых элементов
+     * @return mixed
+     */
+    public function getBagsLimitCond(Bag $bag, int $count = 4);
 }

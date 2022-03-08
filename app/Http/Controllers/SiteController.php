@@ -90,8 +90,10 @@ class SiteController extends Controller
      * @param Bag $bag экземпляр товара из таблицы 'bags'
      * @return mixed
      */
-    public function single(Bag $bag)
+    public function single(Bag $bag, BagsRepositoryInterface $bagsRepository)
     {
-        return view('single', compact('bag'));
+        $featured = $bagsRepository->getBagsLimitCond($bag);
+
+        return view('single', compact('bag', 'featured'));
     }
 }

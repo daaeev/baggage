@@ -59,8 +59,7 @@ class BagsRepository implements BagsRepositoryInterface
      */
     public function getAllWithPag(int $pageSize = 15)
     {
-        return Bag::where('count', '>=', 0)
-            ->orderBy('created_at')
+        return Bag::orderBy('created_at')
             ->paginate($pageSize);
     }
 
@@ -69,8 +68,7 @@ class BagsRepository implements BagsRepositoryInterface
      */
     public function getAllBySearchWithPag(string $search, int $pageSize = 15)
     {
-        return Bag::where('count', '>=', 0)
-            ->where('name', 'like', "%$search%")
+        return Bag::where('name', 'like', "%$search%")
             ->orderBy('created_at')
             ->paginate($pageSize);
     }
@@ -83,5 +81,16 @@ class BagsRepository implements BagsRepositoryInterface
         return Bag::where($where)->firstOr(function () {
             return null;
         });
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getBagsLimitCond(Bag $bag, int $count = 4)
+    {
+        return Bag::where([['id', '!=', $bag->id]])
+            ->orderBy('created_at')
+            ->limit($count)
+            ->get();
     }
 }

@@ -67,113 +67,47 @@
 
                 <!--/row-->
                 <h3 class="title-wthree-single my-lg-5 my-4 text-left">Featured Bags</h3>
-                <div class="row shop-wthree-info text-center">
-                    <div class="col-md-3 shop-info-grid text-center mt-4">
-                        <div class="product-shoe-info shoe">
-                            <div class="men-thumb-item">
-                                <img src="images/b1.jpg" class="img-fluid" alt="">
 
-                            </div>
-                            <div class="item-info-product">
-                                <h4>
-                                    <a href="single.html">Messenger Bag </a>
-                                </h4>
+                @if(!$featured->isEmpty())
+                    @foreach($featured as $product)
+                        <div class="row shop-wthree-info text-center">
+                            <div class="col-md-3 shop-info-grid text-center mt-4">
+                                <div class="product-shoe-info shoe">
+                                    <div class="men-thumb-item">
+                                        <img src="{{asset('storage/' . $product->image)}}" class="img-fluid" alt="product_preview">
 
-                                <div class="product_price">
-                                    <div class="grid-price">
-                                        <span class="money"><span class="line">$799</span> $675.00</span>
+                                    </div>
+                                    <div class="item-info-product">
+                                        <h4>
+                                            <a href="{{route('single', ['bag' => $product->slug])}}"><?= mb_substr($product->name, 0, 20) ?>... </a>
+                                        </h4>
+
+                                        <div class="product_price">
+                                            <div class="grid-price">
+                                        <span class="money">
+                                            @if ($product->discount_price)
+                                                <span class="line">{{$product->price}}грн</span> {{$product->discount_price}}грн
+                                            @else
+                                                {{$product->price}}грн
+                                            @endif
+                                        </span>
+                                            </div>
+                                        </div>
+                                        <ul class="stars">
+                                            <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
+                                            <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
+                                            <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
+                                            <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
+                                            <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
+                                        </ul>
                                     </div>
                                 </div>
-                                <ul class="stars">
-                                    <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
-                                </ul>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-3 shop-info-grid text-center mt-4">
-                        <div class="product-shoe-info shoe">
-                            <div class="men-thumb-item">
-                                <img src="images/b2.jpg" class="img-fluid" alt="">
-
-                            </div>
-                            <div class="item-info-product">
-                                <h4>
-                                    <a href="single.html">Shoulder Bag (Pink) </a>
-                                </h4>
-
-                                <div class="product_price">
-                                    <div class="grid-price">
-                                        <span class="money"><span class="line">$799</span> $675.00</span>
-                                    </div>
-                                </div>
-                                <ul class="stars">
-                                    <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 shop-info-grid text-center mt-4">
-                        <div class="product-shoe-info shoe">
-                            <div class="men-thumb-item">
-                                <img src="images/b3.jpg" class="img-fluid" alt="">
-
-                            </div>
-                            <div class="item-info-product">
-                                <h4>
-                                    <a href="single.html">Sling Bag </a>
-                                </h4>
-
-                                <div class="product_price">
-                                    <div class="grid-price">
-                                        <span class="money"><span class="line">$599</span> $475.00</span>
-                                    </div>
-                                </div>
-                                <ul class="stars">
-                                    <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 shop-info-grid text-center mt-4">
-                        <div class="product-shoe-info shoe">
-                            <div class="men-thumb-item">
-                                <img src="images/b4.jpg" class="img-fluid" alt="">
-
-                            </div>
-                            <div class="item-info-product">
-                                <h4>
-                                    <a href="single.html">Tote (Blue) </a>
-                                </h4>
-
-                                <div class="product_price">
-                                    <div class="grid-price">
-                                        <span class="money"><span class="line">$799</span> $675.00</span>
-                                    </div>
-                                </div>
-                                <ul class="stars">
-                                    <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                    @endforeach
+                @else
+                    <p>No result</p>
+                @endif
                 <!--//row-->
 
             </div>
