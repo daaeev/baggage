@@ -22,7 +22,6 @@ Route::get('/', [SiteController::class, 'index'])->name('home');
 Route::get('/about', [SiteController::class, 'about'])->name('about');
 Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
 Route::get('/catalog', [SiteController::class, 'catalog'])->name('catalog');
-Route::get('/newsletter', [SiteController::class, 'newsletter'])->name('newsletter');
 
 Route::get('/catalog/{bag:slug}', [SiteController::class, 'single'])->name('single');
 

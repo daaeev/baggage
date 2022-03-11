@@ -20,9 +20,6 @@
         <li>
             <a href="{{route('contact')}}"><span class="fa fa-angle-right" aria-hidden="true"></span> Contact Us</a>
         </li>
-        <li>
-            <a href="{{route('newsletter')}}"><span class="fa fa-angle-right" aria-hidden="true"></span> Newsletter</a>
-        </li>
     </ul>
 </div>
 

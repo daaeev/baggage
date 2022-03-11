@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\OrderReceipt;
 use App\Models\Receipt;
 use App\Services\interfaces\BagsRepositoryInterface;
+use App\Services\interfaces\MailSenderInterface;
 use App\Services\interfaces\OrdersRepositoryInterface;
 use App\Services\interfaces\UserRepositoryInterface;
 use App\Services\traits\ReturnWithRedirectAndFlash;
@@ -67,7 +68,8 @@ class OrderController extends Controller
         Request $request,
         OrdersRepositoryInterface $ordersRepository,
         UserRepositoryInterface $userRepository,
-        BagsRepositoryInterface $bagsRepository
+        BagsRepositoryInterface $bagsRepository,
+        MailSenderInterface $mailer
     ) {
         // Валидация данных
         $request->validate([
@@ -107,7 +109,7 @@ class OrderController extends Controller
 
         // Отправка чека на почту пользователя
         $mail = new OrderReceipt($receipt->order_number);
-        Mail::to($userRepository->getAuthenticated()->email)->send($mail);
+        $mailer->queue($mail, $userRepository->getAuthenticated()->email);
 
         return $this->withRedirectAndFlash(
             'status_success',

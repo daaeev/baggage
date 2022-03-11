@@ -9,6 +9,7 @@ use App\Models\Bag;
 use App\Models\Order;
 use App\Models\Subscription;
 use App\Services\interfaces\BagsRepositoryInterface;
+use App\Services\interfaces\MailSenderInterface;
 use App\Services\interfaces\SubscribeRepositoryInterface;
 use App\Services\interfaces\UserRepositoryInterface;
 use App\Services\traits\ReturnWithRedirectAndFlash;
@@ -205,7 +206,8 @@ class BagController extends Controller
     public function productCheck(
         int $id,
         BagsRepositoryInterface $bagsRepository,
-        Request $request
+        Request $request,
+        MailSenderInterface $mailer
     ) {
         // Валидация данных
         $request->validate([
@@ -229,7 +231,7 @@ class BagController extends Controller
         }
 
         // Отправка письма
-        Mail::to($request->query('email'))->send($mail);
+        $mailer->queue($mail, $request->query('email'));
 
         return $this->withRedirectAndFlash(
             'email_send',

@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Models\Bag;
 use App\Observers\SubscriptionObserver;
 use App\Services\interfaces\BagsRepositoryInterface;
+use App\Services\interfaces\MailSenderInterface;
 use App\Services\interfaces\OrdersRepositoryInterface;
 use App\Services\interfaces\ReceiptRepositoryInterface;
 use App\Services\interfaces\SubscribeRepositoryInterface;
 use App\Services\interfaces\UserRepositoryInterface;
+use App\Services\MailSender;
 use App\Services\Repositories\BagsRepository;
 use App\Services\Repositories\OrdersRepository;
 use App\Services\Repositories\ReceiptRepository;
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         OrdersRepositoryInterface::class => OrdersRepository::class,
         ReceiptRepositoryInterface::class => ReceiptRepository::class,
         SubscribeRepositoryInterface::class => SubscribeRepository::class,
+        MailSenderInterface::class => MailSender::class,
     ];
 
     /**

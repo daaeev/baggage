@@ -63,16 +63,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Метод отвечает за рендер страницы подписка на рассылку
-     *
-     * @return mixed
-     */
-    public function newsletter()
-    {
-        return view('newsletter');
-    }
-
-    /**
      * Метод отвечает за рендер страницы профиля
      *
      * @return mixed

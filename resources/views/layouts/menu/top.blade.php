@@ -6,18 +6,10 @@
             <li {{--class="active"--}}><a href="{{route('home')}}">Home</a></li>
             <li><a href="{{route('about')}}">About Us</a></li>
             <li>
-                <!-- First Tier Drop Down -->
-                <label for="drop-2" class="toggle">Dropdown <span class="fa fa-angle-down" aria-hidden="true"></span>
-                </label>
-                <a href="{{route('catalog')}}">Shop <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-                <input type="checkbox" id="drop-2" />
-                <ul>
-                    <li><a href="#" class="drop-text">Category</a></li>
-                </ul>
+                <a href="{{route('catalog')}}">Shop</a>
             </li>
 
             <li><a href="{{route('contact')}}">Contact</a></li>
-            <li><a href="{{route('newsletter')}}">Newsletter</a></li>
         </ul>
     </nav>
     <!-- //nav -->
