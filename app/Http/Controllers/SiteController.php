@@ -6,7 +6,6 @@ use App\Models\Bag;
 use App\Services\interfaces\BagsRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
 
 class SiteController extends Controller
 {
@@ -57,6 +56,12 @@ class SiteController extends Controller
         return view('catalog', compact('catalog', 'search'));
     }
 
+    /**
+     * Рендер страницы с формой создания заказа
+     *
+     * @param string $bag_slug знечение поля slug модели \App\Models\Bag
+     * @return mixed
+     */
     public function orderForm($bag_slug)
     {
         return view('order_form', compact('bag_slug'));
@@ -77,7 +82,7 @@ class SiteController extends Controller
     /**
      * Метод отвечает за рендер страницы просмотра товара
      *
-     * @param Bag $bag экземпляр товара из таблицы 'bags'
+     * @param Bag $bag экземпляр модели \App\Models\Bag
      * @return mixed
      */
     public function single(Bag $bag, BagsRepositoryInterface $bagsRepository)

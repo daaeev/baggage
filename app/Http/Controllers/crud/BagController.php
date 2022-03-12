@@ -302,6 +302,15 @@ class BagController extends Controller
         );
     }
 
+    /**
+     * Метод отвечает за подписку пользователя на товар
+     *
+     * @param Request $request
+     * @param BagsRepositoryInterface $bagsRepository
+     * @param UserRepositoryInterface $userRepository
+     * @param SubscribeRepositoryInterface $subscribeRepository
+     * @return mixed
+     */
     public function subProduct(
         Request $request,
         BagsRepositoryInterface $bagsRepository,

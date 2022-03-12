@@ -62,6 +62,7 @@ class OrderController extends Controller
      * @param OrdersRepositoryInterface $ordersRepository
      * @param UserRepositoryInterface $userRepository
      * @param BagsRepositoryInterface $bagsRepository
+     * @param MailSenderInterface $mailer
      * @return mixed
      */
     public function acceptOrder(
