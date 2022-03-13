@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\crud;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AcceptDeclineOrder;
 use App\Mail\OrderReceipt;
 use App\Models\Receipt;
 use App\Services\interfaces\BagsRepositoryInterface;
@@ -12,7 +13,6 @@ use App\Services\interfaces\UserRepositoryInterface;
 use App\Services\traits\ReturnWithRedirectAndFlash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class OrderController extends Controller
@@ -24,15 +24,15 @@ class OrderController extends Controller
      *
      * @param Request $request
      * @param OrdersRepositoryInterface $ordersRepository
+     * @param AcceptDeclineOrder $validation
      * @return mixed
      */
-    public function declineOrder(Request $request, OrdersRepositoryInterface $ordersRepository)
+    public function declineOrder(
+        Request $request,
+        OrdersRepositoryInterface $ordersRepository,
+        AcceptDeclineOrder $validation
+    )
     {
-        // Валидация данных
-        $request->validate([
-            'order_id' => 'required|exists:\App\Models\Order,id',
-        ]);
-
         // Получение экземпляра заказа
         $order_id = $request->input('order_id');
         $order = $ordersRepository->getFistOrNull($order_id);
@@ -63,6 +63,7 @@ class OrderController extends Controller
      * @param UserRepositoryInterface $userRepository
      * @param BagsRepositoryInterface $bagsRepository
      * @param MailSenderInterface $mailer
+     * @param AcceptDeclineOrder $validation
      * @return mixed
      */
     public function acceptOrder(
@@ -70,13 +71,9 @@ class OrderController extends Controller
         OrdersRepositoryInterface $ordersRepository,
         UserRepositoryInterface $userRepository,
         BagsRepositoryInterface $bagsRepository,
-        MailSenderInterface $mailer
+        MailSenderInterface $mailer,
+        AcceptDeclineOrder $validation
     ) {
-        // Валидация данных
-        $request->validate([
-            'order_id' => 'required|exists:\App\Models\Order,id',
-        ]);
-
         // Получение экземпляра заказа
         $order_id = $request->input('order_id');
         $order = $ordersRepository->getFistOrNull($order_id);

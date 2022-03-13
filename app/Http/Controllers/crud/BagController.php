@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\crud;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BagCreate;
+use App\Http\Requests\BagDelete;
+use App\Http\Requests\BagEdit;
+use App\Http\Requests\CreateOrder;
+use App\Http\Requests\ProductCheck;
 use App\Mail\BuyProduct;
 use App\Mail\SubProduct;
 use App\Models\Bag;
@@ -14,7 +19,6 @@ use App\Services\interfaces\SubscribeRepositoryInterface;
 use App\Services\interfaces\UserRepositoryInterface;
 use App\Services\traits\ReturnWithRedirectAndFlash;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class BagController extends Controller
@@ -25,19 +29,11 @@ class BagController extends Controller
      * Метод отвечает за сохранение данных о новом товаре в БД
      *
      * @param Request $request
+     * @param BagCreate $validate
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function create(Request $request)
+    public function create(Request $request, BagCreate $validate)
     {
-        // Валидация полученных данных
-        $request->validate([
-            'name' => 'required|max:255|unique:\App\Models\Bag,name',
-            'price' => 'numeric|required',
-            'discount_price' => 'nullable|numeric',
-            'count' => 'integer|required',
-            'image' => 'required|file|image',
-        ]);
-
         // Сохранение файла изображения
         $file = $request->file('image');
         $image_path = $file->store('bags_preview', 'public');
@@ -82,20 +78,15 @@ class BagController extends Controller
      *
      * @param Request $request
      * @param BagsRepositoryInterface $bagsRepository
+     * @param BagEdit $validate
      * @return mixed
      */
-    public function edit(Request $request, BagsRepositoryInterface $bagsRepository)
+    public function edit(
+        Request $request,
+        BagsRepositoryInterface $bagsRepository,
+        BagEdit $validate
+    )
     {
-        // Валидация полученных данных
-        $request->validate([
-            'id' => 'bail|required|integer|exists:\App\Models\Bag,id',
-            'name' => 'required|max:255',
-            'price' => 'numeric|required',
-            'discount_price' => 'nullable|numeric',
-            'count' => 'integer|required',
-            'image' => 'nullable|file|image',
-        ]);
-
         $bag = $bagsRepository->getFistOrNull($request->input('id'));
 
         // Передано ли новое изображение. Если да - удалить старое, сохранить новое
@@ -154,20 +145,20 @@ class BagController extends Controller
      *
      * @param Request $request
      * @param BagsRepositoryInterface $bagsRepository
+     * @param BagDelete $validate
      * @return mixed
      */
-    public function delete(Request $request, BagsRepositoryInterface $bagsRepository)
+    public function delete(
+        Request $request,
+        BagsRepositoryInterface $bagsRepository,
+        BagDelete $validate
+    )
     {
-        // Валидация полученных данных
-        $request->validate([
-            'id' => 'bail|required|integer|exists:\App\Models\Bag,id',
-        ]);
-
-        // Удаление товара
         $bag_id = $request->input('id');
         $bag = $bagsRepository->getFistOrNull($bag_id);
         $bab_image = $bag->image;
 
+        // Удаление товара
         if (!$bag->delete()) {
             return $this->withRedirectAndFlash(
                 'status_failed',
@@ -201,19 +192,16 @@ class BagController extends Controller
      * @param int $id идентификатор товара
      * @param BagsRepositoryInterface $bagsRepository
      * @param Request $request
+     * @param ProductCheck $validate
      * @return mixed
      */
     public function productCheck(
         int $id,
         BagsRepositoryInterface $bagsRepository,
         Request $request,
-        MailSenderInterface $mailer
+        MailSenderInterface $mailer,
+        ProductCheck $validate
     ) {
-        // Валидация данных
-        $request->validate([
-            'email' => 'required|email',
-        ]);
-
         // Получение экземпляра товара
         $bag = $bagsRepository->getFistOrNull($id);
 
@@ -221,7 +209,7 @@ class BagController extends Controller
             return redirect(route('home'));
         }
 
-        // Определение класса письма
+        // Определение класса почты
         $mail = null;
 
         if ($bag->count > 0) {
@@ -230,7 +218,7 @@ class BagController extends Controller
             $mail = new SubProduct($bag);
         }
 
-        // Отправка письма
+        // Отправка почты
         $mailer->queue($mail, $request->query('email'));
 
         return $this->withRedirectAndFlash(
@@ -247,19 +235,15 @@ class BagController extends Controller
      * @param UserRepositoryInterface $userRepository
      * @param BagsRepositoryInterface $bagsRepository
      * @param Request $request
+     * @param CreateOrder $validate
      * @return mixed
      */
     public function createOrder(
         UserRepositoryInterface $userRepository,
         BagsRepositoryInterface $bagsRepository,
-        Request $request
+        Request $request,
+        CreateOrder $validate
     ) {
-        // Валидация данных
-        $request->validate([
-            'bag' => 'required|exists:\App\Models\Bag,slug',
-            'number' => 'required|telephone',
-        ]);
-
         // Получение данных для заполнения информации о заказе
         $bag_slug = $request->input('bag');
         $bag = $bagsRepository->getFirstWhereOrNull([['slug', '=', $bag_slug]]);
@@ -309,23 +293,16 @@ class BagController extends Controller
      * @param BagsRepositoryInterface $bagsRepository
      * @param UserRepositoryInterface $userRepository
      * @param SubscribeRepositoryInterface $subscribeRepository
+     * @param SubProduct $validate
      * @return mixed
      */
     public function subProduct(
         Request $request,
         BagsRepositoryInterface $bagsRepository,
         UserRepositoryInterface $userRepository,
-        SubscribeRepositoryInterface $subscribeRepository
+        SubscribeRepositoryInterface $subscribeRepository,
+        SubProduct $validate
     ) {
-        // Валидация данных
-        $request->validate([
-            'slug' => [
-                'required',
-                'exists:\App\Models\Bag,slug',
-                'countIsZero:\App\Models\Bag,count',
-            ],
-        ]);
-
         // Получение данных для заполнения модели
         $user_id = $userRepository->getAuthenticated()->id;
         $bag_slug = $request->input('slug');

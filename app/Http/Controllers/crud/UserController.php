@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\crud;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Http\Requests\UserSetRole;
 use App\Services\interfaces\UserRepositoryInterface;
 use App\Services\traits\ReturnWithRedirectAndFlash;
 use Illuminate\Http\Request;
@@ -15,21 +15,17 @@ class UserController extends Controller
     /**
      * Метод устанавливет статус определенному пользователю
      *
-     * id пользователя и номер роли передаются через get-параметры
      * @param UserRepositoryInterface $userRepository
      * @param Request $request
+     * @param UserSetRole $validation
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setRole(UserRepositoryInterface $userRepository, Request $request)
+    public function setRole(
+        UserRepositoryInterface $userRepository,
+        Request $request,
+        UserSetRole $validation
+    )
     {
-        // перечень значений статусов пользователя для валидатора 'in'
-        $stringOfUserStatuses = User::STATUS_ADMIN . ',' . User::STATUS_USER . ',' . User::STATUS_BANNED;
-
-        $request->validate([
-            'id' => 'bail|required|integer|exists:\App\Models\User,id',
-            'role' => 'bail|required|integer|in:' . $stringOfUserStatuses,
-        ]);
-
         $user_id = $request->input('id');
         $role = $request->input('role');
 

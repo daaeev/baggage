@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BagEditForm;
 use App\Models\User;
 use App\Services\interfaces\BagsRepositoryInterface;
 use App\Services\interfaces\OrdersRepositoryInterface;
@@ -89,12 +90,12 @@ class AdminPanelController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function bagEditForm(BagsRepositoryInterface $bagsRepository, Request $request)
+    public function bagEditForm(
+        BagsRepositoryInterface $bagsRepository,
+        Request $request,
+        BagEditForm $validation
+    )
     {
-        $request->validate([
-            'id' => 'bail|required|integer|exists:\App\Models\Bag,id',
-        ]);
-
         $bag_id = $request->query('id');
         $bag = $bagsRepository->getFistOrNull($bag_id);
 
