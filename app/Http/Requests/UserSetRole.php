@@ -25,7 +25,7 @@ class UserSetRole extends FormRequest
     public function rules()
     {
         // перечень значений статусов пользователя для валидатора 'in'
-        $stringOfUserStatuses = User::STATUS_ADMIN . ',' . User::STATUS_USER . ',' . User::STATUS_BANNED;
+        $stringOfUserStatuses = User::$status_admin . ',' . User::$status_user . ',' . User::$status_banned;
 
         return [
             'id' => 'bail|required|integer|exists:\App\Models\User,id',

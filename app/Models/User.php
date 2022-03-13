@@ -13,24 +13,6 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, RolesCheck;
 
-    /**
-     * Константа используется в трейте RolesCheck
-     * @var int числовое значение статуса админа
-     */
-    const STATUS_ADMIN = 5;
-
-    /**
-     * Константа используется в трейте RolesCheck
-     * @var int числовое значение статуса забаненого пользователя
-     */
-    const STATUS_BANNED = 3;
-
-    /**
-     * Константа используется в трейте RolesCheck
-     * @var int числовое значение статуса обычного пользователя
-     */
-    const STATUS_USER = 0;
-
     protected $attributes = [
         'status' => 0,
     ];
@@ -65,6 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @inheritDoc
+     */
     protected function getStatus(): int
     {
         return $this->status;

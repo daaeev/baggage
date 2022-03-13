@@ -21,9 +21,9 @@ use App\Models\User
         <input name="id" type="number" min="1" placeholder="User id" class="form-control mb-2" autocomplete="off" value="{{old('id')}}">
 
         <select name="role" class="form-control h-50 mb-2">
-            <option value="{{User::STATUS_USER}}">User</option>
-            <option value="{{User::STATUS_ADMIN}}">Admin</option>
-            <option value="{{User::STATUS_BANNED}}">Banned</option>
+            <option value="{{User::$status_user}}">User</option>
+            <option value="{{User::$status_admin}}">Admin</option>
+            <option value="{{User::$status_banned}}">Banned</option>
         </select>
 
         <input type="submit" class="btn btn-success" value="Set">

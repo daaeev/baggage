@@ -48,6 +48,10 @@ class AppServiceProvider extends ServiceProvider
             return $userRepository->getAuthenticated()?->isAdmin();
         });
 
+        Blade::if('banned', function () use ($userRepository) {
+            return $userRepository->getAuthenticated()?->isBanned();
+        });
+
         // РЕГИСТРАЦИЯ ВАЛИДАТОРОВ ---------------
 
         Validator::extend('telephone', function ($attribute, $value, $parameters) {
