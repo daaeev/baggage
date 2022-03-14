@@ -2,14 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Services\interfaces\MailSenderInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Mail\Mailable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
 
 class SendMail implements ShouldQueue
 {
@@ -29,8 +28,8 @@ class SendMail implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(MailSenderInterface $mailer)
     {
-        Mail::to($this->to)->send($this->mail);
+        $mailer->send($this->mail, $this->to);
     }
 }
