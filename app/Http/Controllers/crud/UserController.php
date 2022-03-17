@@ -13,21 +13,26 @@ class UserController extends Controller
     use ReturnWithRedirectAndFlash;
 
     /**
+     * @param Request $request
+     */
+    public function __construct(protected Request $request)
+    {
+    }
+
+    /**
      * Метод устанавливет статус определенному пользователю
      *
      * @param UserRepositoryInterface $userRepository
-     * @param Request $request
      * @param UserSetRole $validation
      * @return \Illuminate\Http\RedirectResponse
      */
     public function setRole(
         UserRepositoryInterface $userRepository,
-        Request $request,
         UserSetRole $validation
     )
     {
-        $user_id = $request->input('id');
-        $role = $request->input('role');
+        $user_id = $this->request->input('id');
+        $role = $this->request->input('role');
 
         // Сохранение данных пользователя в БД
         $user = $userRepository->getFistOrNull($user_id);
@@ -37,7 +42,7 @@ class UserController extends Controller
                 'status_failed',
                 'Save failed',
                 route('admin.users'),
-                $request
+                $this->request
             );
         }
 
@@ -45,7 +50,7 @@ class UserController extends Controller
             'status_success',
             'Role is set',
             route('admin.users'),
-            $request
+            $this->request
         );
     }
 }

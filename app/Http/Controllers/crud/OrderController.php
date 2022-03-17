@@ -20,21 +20,25 @@ class OrderController extends Controller
     use ReturnWithRedirectAndFlash;
 
     /**
-     * Метод отвечает за отклонение заказа (его удаление из таблицы 'orders')
-     *
      * @param Request $request
+     */
+    public function __construct(protected Request $request)
+    {
+    }
+
+    /**
+     * Метод отвечает за отклонение заказа (его удаление из таблицы 'orders')
      * @param OrdersRepositoryInterface $ordersRepository
      * @param AcceptDeclineOrder $validation
      * @return mixed
      */
     public function declineOrder(
-        Request $request,
         OrdersRepositoryInterface $ordersRepository,
         AcceptDeclineOrder $validation
     )
     {
         // Получение экземпляра заказа
-        $order_id = $request->input('order_id');
+        $order_id = $this->request->input('order_id');
         $order = $ordersRepository->getFistOrNull($order_id);
 
         // Удаление данных из БД
@@ -43,7 +47,7 @@ class OrderController extends Controller
                 'status_failed',
                 'Order decline with id $order_id failed',
                 route('admin.orders'),
-                $request
+                $this->request
             );
         }
 
@@ -51,14 +55,13 @@ class OrderController extends Controller
             'status_success',
             'Order decline success',
             route('admin.orders'),
-            $request
+            $this->request
         );
     }
 
     /**
      * Метод отвечает за подтверждение заказа на странице 'Orders' админ панели
      *
-     * @param Request $request
      * @param OrdersRepositoryInterface $ordersRepository
      * @param UserRepositoryInterface $userRepository
      * @param BagsRepositoryInterface $bagsRepository
@@ -67,7 +70,6 @@ class OrderController extends Controller
      * @return mixed
      */
     public function acceptOrder(
-        Request $request,
         OrdersRepositoryInterface $ordersRepository,
         UserRepositoryInterface $userRepository,
         BagsRepositoryInterface $bagsRepository,
@@ -75,7 +77,7 @@ class OrderController extends Controller
         AcceptDeclineOrder $validation
     ) {
         // Получение экземпляра заказа
-        $order_id = $request->input('order_id');
+        $order_id = $this->request->input('order_id');
         $order = $ordersRepository->getFistOrNull($order_id);
 
         // Получение экземпляра товара
@@ -101,7 +103,7 @@ class OrderController extends Controller
                 'status_failed',
                 'Order accept with id $order_id failed',
                 route('admin.orders'),
-                $request
+                $this->request
             );
         }
 
@@ -113,7 +115,7 @@ class OrderController extends Controller
             'status_success',
             'Order accept success',
             route('admin.orders'),
-            $request
+            $this->request
         );
     }
 }
