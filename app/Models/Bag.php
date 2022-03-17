@@ -35,7 +35,7 @@ class Bag extends Model
      */
     public function orders()
     {
-        return $this->hasMany(Order::class, 'fk-orders-bag_id');
+        return $this->hasMany(Order::class);
     }
 
     /**
@@ -45,7 +45,7 @@ class Bag extends Model
      */
     public function subscriptions()
     {
-        return $this->hasMany(Subscription::class, 'fk-subscriptions-bag_id');
+        return $this->hasMany(Subscription::class);
     }
 
     /**
@@ -55,6 +55,6 @@ class Bag extends Model
      */
     public function receipts()
     {
-        return $this->hasMany(Receipt::class, 'fk-receipts-bag_id');
+        return $this->hasMany(Receipt::class);
     }
 }

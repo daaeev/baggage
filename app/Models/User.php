@@ -62,7 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function orders()
     {
-        return $this->hasMany(Order::class, 'fk-orders-user_id');
+        return $this->hasMany(Order::class);
     }
 
     /**
@@ -72,7 +72,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function subscriptions()
     {
-        return $this->hasMany(Subscription::class, 'fk-subscriptions-user_id');
+        return $this->hasMany(Subscription::class);
     }
 
     /**
@@ -82,6 +82,6 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function receipts()
     {
-        return $this->hasMany(Receipt::class, 'fk-receipts-user_id');
+        return $this->hasMany(Receipt::class);
     }
 }
