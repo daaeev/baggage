@@ -22,7 +22,7 @@ class AdminAccess
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$this->userRepository->getAuthenticated()->isAdmin()) {
+        if (!$this->userRepository->getAuthenticated()?->isAdmin()) {
             return response()->redirectTo(route('home'));
         }
 

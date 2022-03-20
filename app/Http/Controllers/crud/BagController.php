@@ -260,7 +260,7 @@ class BagController extends Controller
         }
 
         $bag_id = $bag->id;
-        $user_id = $userRepository->getAuthenticated()->id;
+        $user_id = $userRepository->getAuthenticated()?->id;
 
 
         // Заполнение и сохранение данных заказа
@@ -303,7 +303,7 @@ class BagController extends Controller
         SubProduct $validate
     ) {
         // Получение данных для заполнения модели
-        $user_id = $userRepository->getAuthenticated()->id;
+        $user_id = $userRepository->getAuthenticated()?->id;
         $bag_slug = $this->request->input('slug');
         $bag_id = $bagsRepository->getFirstWhereOrNull([['slug', '=', $bag_slug]])->id;
 

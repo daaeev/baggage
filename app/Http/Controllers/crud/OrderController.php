@@ -109,7 +109,7 @@ class OrderController extends Controller
 
         // Отправка чека на почту пользователя
         $mail = new OrderReceipt($receipt->order_number);
-        $mailer->queue($mail, $userRepository->getAuthenticated()->email);
+        $mailer->queue($mail, $userRepository->getAuthenticated()?->email);
 
         return $this->withRedirectAndFlash(
             'status_success',
