@@ -53,6 +53,9 @@ class BagController extends Controller
             );
         }
 
+        $exploded_image_path = explode('/', $image_path);
+        $image_name = end($exploded_image_path);
+
         // Сохранение данных в БД
         $model = new Bag;
         $model->name = $this->request->input('name');
@@ -60,7 +63,7 @@ class BagController extends Controller
         $model->price = $this->request->input('price');
         $model->discount_price = $this->request->input('discount_price');
         $model->count = $this->request->input('count');
-        $model->image = $image_path;
+        $model->image = $image_name;
 
         if (!$model->save()) {
             return $this->withRedirectAndFlash(
@@ -96,7 +99,7 @@ class BagController extends Controller
         // Передано ли новое изображение. Если да - удалить старое, сохранить новое
         if ($this->request->hasFile('image')) {
 
-            if (!Storage::disk('public')->delete($bag->image)) {
+            if (!Storage::disk('public')->delete('/bags_preview/' . $bag->image)) {
                 return $this->withRedirectAndFlash(
                     'status_failed',
                     'Old image delete failed',

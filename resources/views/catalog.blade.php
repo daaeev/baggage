@@ -21,7 +21,7 @@
                 <div class="col-lg-3 shop-info-grid text-center mt-4">
                 <div class="product-shoe-info shoe">
                     <div class="men-thumb-item">
-                        <img src="{{asset('storage/' . $product->image)}}" class="img-fluid" alt="product_preview">
+                        <img src="{{asset('storage/bags_preview/' . $product->image)}}" class="img-fluid" alt="product_preview">
 
                     </div>
                     <div class="item-info-product">

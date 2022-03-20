@@ -12,7 +12,7 @@
             <div class="left-ads-display wthree">
                 <div class="row">
                     <div class="desc1-left col-md-6">
-                        <img src="{{asset('storage/' . $bag->image)}}" class="img-fluid" alt="bag_preview">
+                        <img src="{{asset('storage/bags_preview/' . $bag->image)}}" class="img-fluid" alt="bag_preview">
                     </div>
                     <div class="desc1-right col-md-6 pl-lg-3">
                         <h3>{{$bag->name}}</h3>
@@ -74,7 +74,7 @@
                             <div class="col-md-3 shop-info-grid text-center mt-4">
                                 <div class="product-shoe-info shoe">
                                     <div class="men-thumb-item">
-                                        <img src="{{asset('storage/' . $product->image)}}" class="img-fluid" alt="product_preview">
+                                        <img src="{{asset('storage/bags_preview/' . $product->image)}}" class="img-fluid" alt="product_preview">
 
                                     </div>
                                     <div class="item-info-product">
