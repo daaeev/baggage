@@ -9,6 +9,8 @@ class Receipt extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     /**
      * Получить пользователя данного чека
      *

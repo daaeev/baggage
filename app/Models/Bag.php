@@ -10,14 +10,7 @@ class Bag extends Model
 {
     use HasFactory, Sluggable;
 
-    protected $fillable = [
-        'name',
-        'description',
-        'price',
-        'discount_price',
-        'image',
-        'count'
-    ];
+    protected $guarded = [];
 
     public function sluggable(): array
     {
