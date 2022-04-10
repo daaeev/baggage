@@ -40,26 +40,26 @@ Route::middleware('auth')->group(function () {
 
 Auth::routes(['verify' => true]);
 
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     // CRUD routes
-    Route::post('/admin/user/role', [UserController::class, 'setRole'])->name('admin.users.role');
+    Route::post('/user/role', [UserController::class, 'setRole'])->name('admin.users.role');
 
-    Route::post('/admin/bags/create', [BagController::class, 'create'])->name('admin.bags.create');
-    Route::post('/admin/bags/edit', [BagController::class, 'edit'])->name('admin.bags.edit');
-    Route::post('/admin/bags/delete', [BagController::class, 'delete'])->name('admin.bags.delete');
+    Route::post('/bags/create', [BagController::class, 'create'])->name('admin.bags.create');
+    Route::post('/bags/edit', [BagController::class, 'edit'])->name('admin.bags.edit');
+    Route::post('/bags/delete', [BagController::class, 'delete'])->name('admin.bags.delete');
 
-    Route::post('/admin/orders/decline', [OrderController::class, 'declineOrder'])->name('admin.orders.decline');
-    Route::post('/admin/orders/accept', [OrderController::class, 'acceptOrder'])->name('admin.orders.accept');
+    Route::post('/orders/decline', [OrderController::class, 'declineOrder'])->name('admin.orders.decline');
+    Route::post('/orders/accept', [OrderController::class, 'acceptOrder'])->name('admin.orders.accept');
     // !CRUD routes
 
-    Route::get('/admin/users', [AdminPanelController::class, 'usersList'])->name('admin.users');
+    Route::get('/users', [AdminPanelController::class, 'usersList'])->name('admin.users');
 
-    Route::get('/admin/bags', [AdminPanelController::class, 'bagsList'])->name('admin.bags');
-    Route::get('/admin/bags/create/form', [AdminPanelController::class, 'bagCreateForm'])->name('admin.bags.create.form');
-    Route::get('/admin/bags/edit/form', [AdminPanelController::class, 'bagEditForm'])->name('admin.bags.edit.form');
+    Route::get('/bags', [AdminPanelController::class, 'bagsList'])->name('admin.bags');
+    Route::get('/bags/create/form', [AdminPanelController::class, 'bagCreateForm'])->name('admin.bags.create.form');
+    Route::get('/bags/edit/form', [AdminPanelController::class, 'bagEditForm'])->name('admin.bags.edit.form');
 
-    Route::get('/admin/orders', [AdminPanelController::class, 'ordersList'])->name('admin.orders');
+    Route::get('/orders', [AdminPanelController::class, 'ordersList'])->name('admin.orders');
 
-    Route::get('/admin/receipts', [AdminPanelController::class, 'receiptsList'])->name('admin.receipts');
+    Route::get('/receipts', [AdminPanelController::class, 'receiptsList'])->name('admin.receipts');
 });
