@@ -22,7 +22,7 @@ interface BagsRepositoryInterface
      * @param int $id идентификатор товара в таблице
      * @return \App\Models\Bag|Null
      */
-    public function getFistOrNull(int $id): Bag|null;
+    public function getFirstOrNull(int $id): Bag|null;
 
     /**
      * Метод получает все последние товары из таблицы с использыванием пагинации

@@ -50,7 +50,7 @@ class OrdersRepository implements OrdersRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getFistOrNull(int $id): Order|null
+    public function getFirstOrNull(int $id): Order|null
     {
         return Order::where('id', $id)->firstOr(function () {
             return null;

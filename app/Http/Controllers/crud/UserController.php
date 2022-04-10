@@ -35,7 +35,7 @@ class UserController extends Controller
         $role = $this->request->input('role');
 
         // Сохранение данных пользователя в БД
-        $user = $userRepository->getFistOrNull($user_id);
+        $user = $userRepository->getFirstOrNull($user_id);
         $user->status = $role;
         if (!$user->save()) {
             return $this->withRedirectAndFlash(

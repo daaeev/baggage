@@ -22,5 +22,5 @@ interface OrdersRepositoryInterface
      * если такой имеется - иначе null
      * @return \App\Models\Order|Null
      */
-    public function getFistOrNull(int $id): Order|null;
+    public function getFirstOrNull(int $id): Order|null;
 }

@@ -99,7 +99,7 @@ class AdminPanelController extends Controller
     )
     {
         $bag_id = $this->request->query('id');
-        $bag = $bagsRepository->getFistOrNull($bag_id);
+        $bag = $bagsRepository->getFirstOrNull($bag_id);
 
         return view('admin.bags_edit_form', compact('bag'));
     }

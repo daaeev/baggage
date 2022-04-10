@@ -39,7 +39,7 @@ class OrderController extends Controller
     {
         // Получение экземпляра заказа
         $order_id = $this->request->input('order_id');
-        $order = $ordersRepository->getFistOrNull($order_id);
+        $order = $ordersRepository->getFirstOrNull($order_id);
 
         // Удаление данных из БД
         if (!$order->delete()) {
@@ -78,10 +78,10 @@ class OrderController extends Controller
     ) {
         // Получение экземпляра заказа
         $order_id = $this->request->input('order_id');
-        $order = $ordersRepository->getFistOrNull($order_id);
+        $order = $ordersRepository->getFirstOrNull($order_id);
 
         // Получение экземпляра товара
-        $bag = $bagsRepository->getFistOrNull($order->bag_id);
+        $bag = $bagsRepository->getFirstOrNull($order->bag_id);
 
         // Сохранение данных в бд, используя транзакцию
         $receipt = new Receipt;

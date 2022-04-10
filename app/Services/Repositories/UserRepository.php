@@ -27,7 +27,7 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getFistOrNull(int $id): User|null
+    public function getFirstOrNull(int $id): User|null
     {
         return User::where('id', $id)->firstOr(function () {
             return null;

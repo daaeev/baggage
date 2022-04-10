@@ -40,13 +40,6 @@
                                 </span>
                             </div>
                         </div>
-                        <ul class="stars">
-                            <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                            <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                            <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
-                            <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
-                            <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
-                        </ul>
                     </div>
                 </div>
             </div>

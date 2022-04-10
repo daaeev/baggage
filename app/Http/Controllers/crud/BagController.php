@@ -94,7 +94,7 @@ class BagController extends Controller
         BagEdit $validate
     )
     {
-        $bag = $bagsRepository->getFistOrNull($this->request->input('id'));
+        $bag = $bagsRepository->getFirstOrNull($this->request->input('id'));
 
         // Передано ли новое изображение. Если да - удалить старое, сохранить новое
         if ($this->request->hasFile('image')) {
@@ -160,7 +160,7 @@ class BagController extends Controller
     )
     {
         $bag_id = $this->request->input('id');
-        $bag = $bagsRepository->getFistOrNull($bag_id);
+        $bag = $bagsRepository->getFirstOrNull($bag_id);
         $bab_image = $bag->image;
 
         // Удаление товара
@@ -206,7 +206,7 @@ class BagController extends Controller
         ProductCheck $validate
     ) {
         // Получение экземпляра товара
-        $bag = $bagsRepository->getFistOrNull($id);
+        $bag = $bagsRepository->getFirstOrNull($id);
 
         if (!$bag) {
             return redirect(route('home'));

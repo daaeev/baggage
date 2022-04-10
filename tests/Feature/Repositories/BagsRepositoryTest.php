@@ -24,7 +24,7 @@ class BagsRepositoryTest extends TestCase
 
     public function testFirstOrNullIfNotExist()
     {
-        $bag = $this->repository->getFistOrNull(1);
+        $bag = $this->repository->getFirstOrNull(1);
 
         $this->assertNull($bag);
     }
@@ -32,7 +32,7 @@ class BagsRepositoryTest extends TestCase
     public function testFirstOrNullIfExist()
     {
         $bag_created = Bag::factory()->createOne();
-        $bag_founded = $this->repository->getFistOrNull($bag_created->id);
+        $bag_founded = $this->repository->getFirstOrNull($bag_created->id);
 
         $this->assertNotNull($bag_founded);
         $this->assertInstanceOf(Bag::class, $bag_founded);

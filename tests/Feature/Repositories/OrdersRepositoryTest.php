@@ -24,7 +24,7 @@ class OrdersRepositoryTest extends TestCase
 
     public function testFirstOrNullIfNotExist()
     {
-        $bag = $this->repository->getFistOrNull(1);
+        $bag = $this->repository->getFirstOrNull(1);
 
         $this->assertNull($bag);
     }
@@ -32,7 +32,7 @@ class OrdersRepositoryTest extends TestCase
     public function testFirstOrNullIfExist()
     {
         $order_created = Order::factory()->createOne();
-        $order_founded = $this->repository->getFistOrNull($order_created->id);
+        $order_founded = $this->repository->getFirstOrNull($order_created->id);
 
         $this->assertNotNull($order_founded);
         $this->assertInstanceOf(Order::class, $order_founded);

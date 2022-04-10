@@ -39,7 +39,7 @@
                                 <h2><a href="{{route('login')}}">Login to offer </a></h2>
                             @endauth
 
-                            <p class="mt-5">{{substr($bag->description, 0, 90)}}.. </p>
+                            <p class="mt-5">{{$bag->description}} </p>
                         </div>
 
                         <div class="share-desc mt-5">

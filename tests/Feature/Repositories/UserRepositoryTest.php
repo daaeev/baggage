@@ -24,7 +24,7 @@ class UserRepositoryTest extends TestCase
 
     public function testFirstOrNullIfNotExist()
     {
-        $user = $this->repository->getFistOrNull(1);
+        $user = $this->repository->getFirstOrNull(1);
 
         $this->assertNull($user);
     }
@@ -32,7 +32,7 @@ class UserRepositoryTest extends TestCase
     public function testFirstOrNullIfExist()
     {
         $user_created = User::factory()->createOne();
-        $user_found = $this->repository->getFistOrNull($user_created->id);
+        $user_found = $this->repository->getFirstOrNull($user_created->id);
 
         $this->assertNotNull($user_found);
         $this->assertInstanceOf(User::class, $user_found);

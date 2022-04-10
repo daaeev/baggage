@@ -47,7 +47,7 @@ class BagsRepository implements BagsRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getFistOrNull(int $id): Bag|null
+    public function getFirstOrNull(int $id): Bag|null
     {
         return Bag::where('id', $id)->firstOr(function () {
             return null;
